@@ -3,7 +3,60 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Pawukon Bali — Hitung Wuku & Wara</title>
+
+<!-- ====== SEO PRIMARY ====== -->
+<title>Kalender Wuku Bali — Hitung Wuku, Wara & Prediksi Harian Berdasarkan Tanggal Lahir</title>
+<meta name="description" content="Hitung wuku Bali, saptawara, pancawara dan prediksi harian berdasarkan tanggal lahir Anda. Temukan hari baik, karakter, ramalan rezeki, karir, dan asmara sesuai kalender Pawukon Bali.">
+<meta name="keywords" content="wuku bali, kalender bali, pawukon, saptawara, pancawara, hari baik bali, wuku lahir, wariga bali, kalender hindu bali, neptu bali, galungan, kuningan, kajeng kliwon, tumpek, ramalan bali, hari baik pernikahan bali, dewasa ayu">
+<meta name="author" content="Wuku Bali">
+<meta name="robots" content="index, follow">
+<meta name="language" content="Indonesian">
+<link rel="canonical" href="https://wuku-bali.vercel.app/">
+
+<!-- ====== OPEN GRAPH (WhatsApp, Facebook) ====== -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://wuku-bali.vercel.app/">
+<meta property="og:title" content="Kalender Wuku Bali — Hitung Wuku & Prediksi Harian">
+<meta property="og:description" content="Cari tahu wuku, saptawara, pancawara dan ramalan harian Anda berdasarkan tanggal lahir. Gratis, cepat, dan akurat berdasarkan kalender Pawukon Bali.">
+<meta property="og:image" content="https://wuku-bali.vercel.app/og-image.png">
+<meta property="og:locale" content="id_ID">
+<meta property="og:site_name" content="Wuku Bali">
+
+<!-- ====== TWITTER CARD ====== -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:url" content="https://wuku-bali.vercel.app/">
+<meta name="twitter:title" content="Kalender Wuku Bali — Hitung Wuku & Prediksi Harian">
+<meta name="twitter:description" content="Cari tahu wuku, saptawara, pancawara dan ramalan harian Anda berdasarkan tanggal lahir. Gratis dan akurat.">
+<meta name="twitter:image" content="https://wuku-bali.vercel.app/og-image.png">
+
+<!-- ====== SCHEMA MARKUP (Google Rich Results) ====== -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Kalender Wuku Bali",
+  "url": "https://wuku-bali.vercel.app/",
+  "description": "Aplikasi web gratis untuk menghitung wuku Bali, saptawara, pancawara dan prediksi harian berdasarkan tanggal lahir sesuai kalender Pawukon Bali.",
+  "applicationCategory": "LifestyleApplication",
+  "operatingSystem": "Any",
+  "inLanguage": "id",
+  "isAccessibleForFree": true,
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "IDR"
+  },
+  "author": {
+    "@type": "Organization",
+    "name": "Wuku Bali"
+  },
+  "keywords": "wuku bali, kalender bali, pawukon, saptawara, pancawara, hari baik bali"
+}
+</script>
+
+<!-- ====== FAVICON ====== -->
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌺</text></svg>">
+
 <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Crimson+Pro:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet">
 <style>
   :root {
@@ -348,6 +401,7 @@
   .hari-prediksi { font-size:0.9rem; color:var(--gold-pale); opacity:0.85; line-height:1.5; }
   .hari-cocok { font-size:0.8rem; color:var(--gold); opacity:0.7; margin-top:5px; }
 
+  .footer-om {
     text-align: center;
     margin-top: 30px;
     color: var(--gold);
@@ -355,12 +409,81 @@
     font-size: 1.5rem;
   }
 
-  /* Balinese decorative SVG patterns */
-  .bali-border {
-    width: 100%;
-    height: 24px;
-    margin: 8px 0;
+  /* Kalender Grid */
+  .kal-grid-header {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 3px;
+    margin-bottom: 3px;
   }
+  .kal-grid-header div {
+    text-align: center;
+    font-size: 0.7rem;
+    letter-spacing: 1px;
+    color: var(--gold);
+    opacity: 0.7;
+    padding: 4px 0;
+    text-transform: uppercase;
+  }
+  .kal-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 3px;
+  }
+  .kal-day {
+    aspect-ratio: 1;
+    border-radius: 6px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 0.8rem;
+    position: relative;
+    border: 1px solid transparent;
+    transition: all 0.2s;
+    padding: 2px;
+    background: rgba(42,26,8,0.4);
+  }
+  .kal-day:hover { transform: scale(1.08); z-index: 2; border-color: var(--gold) !important; }
+  .kal-day.empty { background: transparent; cursor: default; pointer-events:none; }
+  .kal-day.today { border: 2px solid var(--gold-light) !important; }
+  .kal-day.baik { background: rgba(76,175,80,0.18); }
+  .kal-day.kurang { background: rgba(229,115,115,0.14); }
+  .kal-day.istimewa { background: rgba(206,147,216,0.22); }
+  .kal-day.hariraya { background: rgba(100,181,246,0.22); }
+  .kal-day.dewasa-ayu { border-color: rgba(255,204,128,0.6) !important; box-shadow: 0 0 6px rgba(255,204,128,0.3); }
+  .kal-day .tgl-num { font-size:0.82rem; color:var(--cream); line-height:1; }
+  .kal-day .tgl-dot { width:5px; height:5px; border-radius:50%; margin-top:2px; flex-shrink:0; }
+  .dot-baik { background:#81c784; }
+  .dot-kurang { background:#ef9a9a; }
+  .dot-istimewa { background:#ce93d8; }
+  .dot-hariraya { background:#64b5f6; }
+  .dot-dewasa { background:#ffcc80; }
+
+  .filter-btn {
+    width: auto !important;
+    padding: 5px 12px !important;
+    font-size: 0.75rem !important;
+    margin: 0 !important;
+    background: rgba(42,26,8,0.8) !important;
+    color: var(--gold-pale) !important;
+    border: 1px solid rgba(201,147,58,0.3) !important;
+    border-radius: 20px !important;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: 'Crimson Pro', serif !important;
+    letter-spacing: 0 !important;
+    box-shadow: none !important;
+    transform: none !important;
+  }
+  .filter-btn.active, .filter-btn:hover {
+    background: rgba(201,147,58,0.25) !important;
+    color: var(--gold-light) !important;
+    border-color: var(--gold) !important;
+    transform: none !important;
+  }
+  .leg-item { display:inline-flex; align-items:center; gap:4px; color:var(--gold-pale); opacity:0.7; }
 </style>
 </head>
 <body>
@@ -499,6 +622,9 @@
     <button onclick="hitungHarian()" id="btn-harian" style="margin-top:16px; background: linear-gradient(135deg, #1a2a4a, #2e4a8a, #1a2a4a); color: #a8c4f0; font-size:0.85rem;">
       🔮 Lihat Prediksi 7 Hari ke Depan
     </button>
+    <button onclick="bukaKalender()" style="margin-top:8px; background: linear-gradient(135deg, #2a1a08, #5a3a10, #2a1a08); color: var(--gold-light); font-size:0.85rem;">
+      🗓️ Buka Kalender Bali & Dewasa Ayu
+    </button>
   </div>
 
   <!-- Prediksi Harian Card -->
@@ -516,6 +642,55 @@
     <div id="list-harian"></div>
   </div>
 
+  <!-- Kalender Bali Card -->
+  <div class="card" id="card-kalender" style="display:none;">
+    <svg class="card-corner tl" viewBox="0 0 40 40" fill="none"><path d="M2 38 Q2 2 38 2" stroke="#c9933a" stroke-width="1.5" fill="none"/><circle cx="2" cy="2" r="3" fill="#c9933a"/></svg>
+    <svg class="card-corner tr" viewBox="0 0 40 40" fill="none"><path d="M2 38 Q2 2 38 2" stroke="#c9933a" stroke-width="1.5" fill="none"/><circle cx="2" cy="2" r="3" fill="#c9933a"/></svg>
+    <svg class="card-corner bl" viewBox="0 0 40 40" fill="none"><path d="M2 38 Q2 2 38 2" stroke="#c9933a" stroke-width="1.5" fill="none"/><circle cx="2" cy="2" r="3" fill="#c9933a"/></svg>
+    <svg class="card-corner br" viewBox="0 0 40 40" fill="none"><path d="M2 38 Q2 2 38 2" stroke="#c9933a" stroke-width="1.5" fill="none"/><circle cx="2" cy="2" r="3" fill="#c9933a"/></svg>
+
+    <!-- Header Kalender -->
+    <div style="text-align:center; margin-bottom:16px;">
+      <span style="font-family:'Cinzel Decorative',serif; font-size:1.1rem; color:var(--gold-light);">🗓️ Kalender Bali</span>
+      <div style="font-size:0.8rem; color:var(--gold); opacity:0.7; margin-top:4px; letter-spacing:1px;">Hari Baik · Dewasa Ayu · Hari Raya</div>
+    </div>
+
+    <!-- Filter Dewasa -->
+    <div style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:16px; justify-content:center;">
+      <button class="filter-btn active" onclick="setFilter('semua')" id="f-semua">Semua</button>
+      <button class="filter-btn" onclick="setFilter('pernikahan')" id="f-pernikahan">💍 Pernikahan</button>
+      <button class="filter-btn" onclick="setFilter('ngaben')" id="f-ngaben">🔥 Ngaben</button>
+      <button class="filter-btn" onclick="setFilter('manusa')" id="f-manusa">👶 Manusa Yadnya</button>
+    </div>
+
+    <!-- Navigasi Bulan -->
+    <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:14px;">
+      <button onclick="gantiBuilan(-1)" style="width:auto; padding:6px 14px; font-size:0.8rem; margin:0; background:rgba(201,147,58,0.2); color:var(--gold); border:1px solid rgba(201,147,58,0.4); border-radius:6px;">◀ Prev</button>
+      <span id="kal-bulan-label" style="font-family:'Cinzel Decorative',serif; font-size:0.95rem; color:var(--gold-light);"></span>
+      <button onclick="gantiBuilan(1)" style="width:auto; padding:6px 14px; font-size:0.8rem; margin:0; background:rgba(201,147,58,0.2); color:var(--gold); border:1px solid rgba(201,147,58,0.4); border-radius:6px;">Next ▶</button>
+    </div>
+
+    <!-- Grid Kalender -->
+    <div class="kal-grid-header">
+      <div>Min</div><div>Sen</div><div>Sel</div><div>Rab</div><div>Kam</div><div>Jum</div><div>Sab</div>
+    </div>
+    <div class="kal-grid" id="kal-grid"></div>
+
+    <!-- Legend -->
+    <div style="margin-top:14px; display:flex; flex-wrap:wrap; gap:8px; font-size:0.75rem;">
+      <span class="leg-item" style="color:#81c784;">🟢 Hari Baik</span>
+      <span class="leg-item" style="color:#ef9a9a;">🔴 Kurang Baik</span>
+      <span class="leg-item" style="color:#ce93d8;">🟣 Hari Istimewa</span>
+      <span class="leg-item" style="color:#64b5f6;">🔵 Hari Raya</span>
+      <span class="leg-item" style="color:#ffcc80;">🟡 Dewasa Ayu</span>
+    </div>
+
+    <!-- Detail Hari -->
+    <div id="kal-detail" style="display:none; margin-top:14px; background:rgba(42,26,8,0.8); border:1px solid rgba(201,147,58,0.3); border-radius:10px; padding:16px; animation:fadeUp 0.3s ease;">
+      <div id="kal-detail-isi"></div>
+    </div>
+  </div>
+
   <!-- Bottom ornament -->
   <div style="text-align:center; margin-top:10px;">
     <svg width="280" height="30" viewBox="0 0 280 30" fill="none">
@@ -527,6 +702,13 @@
   </div>
 
   <div class="footer-om">ᬒᬁ ᬱᬵᬦ᭄ᬢᬶ ᬱᬵᬦ᭄ᬢᬶ ᬱᬵᬦ᭄ᬢᬶ</div>
+
+  <!-- SEO Content -->
+  <div style="margin-top:40px; padding:20px; border-top:1px solid rgba(201,147,58,0.2); font-size:0.85rem; color:rgba(245,230,200,0.4); line-height:1.8; text-align:center;">
+    <p><strong style="color:rgba(201,147,58,0.5);">Kalender Wuku Bali</strong> — Hitung wuku bali, saptawara, pancawara berdasarkan tanggal lahir.</p>
+    <p style="margin-top:6px;">Temukan hari baik Bali · Galungan · Kuningan · Kajeng Kliwon · Tumpek · Pawukon · Wariga · Dewasa Ayu</p>
+    <p style="margin-top:6px;">© 2026 WukuBali.vercel.app — Kalender Hindu Bali Online Gratis</p>
+  </div>
 </div>
 
 <script>
@@ -646,6 +828,7 @@ function hitung() {
 
   // Hide prediksi harian saat input baru
   document.getElementById('card-harian').style.display = 'none';
+  document.getElementById('card-kalender').style.display = 'none';
   window._wukuLahir = wuku;
 
   const resultEl = document.getElementById('result');
@@ -750,6 +933,225 @@ function hitungHarian() {
 
   document.getElementById('list-harian').innerHTML = html;
   const el = document.getElementById('card-harian');
+  el.style.display = 'block';
+  el.style.animation = 'none'; el.offsetHeight;
+  el.style.animation = 'fadeUp 0.6s ease forwards';
+  el.scrollIntoView({ behavior:'smooth', block:'start' });
+}
+
+// ===== KALENDER BALI =====
+let kalTahun = new Date().getFullYear();
+let kalBulan = new Date().getMonth();
+let filterAktif = 'semua';
+
+const BULAN_PANJANG = ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
+
+// Hari Raya Bali tetap (tidak bergerak per tahun Masehi kecuali Galungan)
+// Galungan dihitung dari siklus 210 hari
+function getHariRaya(tgl) {
+  const ref = new Date('2002-01-06T00:00:00');
+  const selisih = Math.floor((tgl - ref) / 86400000);
+  const pos210 = ((selisih % 210) + 210) % 210;
+  const posWuku = Math.floor(pos210 / 7);
+  const hariDlmWuku = pos210 % 7;
+  const idxPanca = (4 + ((selisih % 5) + 5) % 5) % 5;
+  const panca = PANCAWARA[idxPanca];
+  const sapta = SAPTAWARA[tgl.getDay()];
+
+  const hasil = [];
+
+  // Galungan: Rabu Kliwon Dungulan (wuku 10, hari 3=Rabu, panca Kliwon)
+  if (posWuku === 9 && tgl.getDay() === 3 && panca.nama === 'Kliwon') hasil.push('Galungan');
+  // Kuningan: Sabtu Kliwon Kuningan (wuku 11, hari 6=Sabtu, panca Kliwon)
+  if (posWuku === 10 && tgl.getDay() === 6 && panca.nama === 'Kliwon') hasil.push('Kuningan');
+  // Pagerwesi: Rabu Kliwon Sinta (wuku 1)
+  if (posWuku === 0 && tgl.getDay() === 3 && panca.nama === 'Kliwon') hasil.push('Pagerwesi');
+  // Saraswati: Sabtu Umanis Watugunung (wuku 29)
+  if (posWuku === 28 && tgl.getDay() === 6 && panca.nama === 'Umanis') hasil.push('Saraswati');
+  // Tumpek Landep: Sabtu Kliwon Landep
+  if (posWuku === 1 && tgl.getDay() === 6 && panca.nama === 'Kliwon') hasil.push('Tumpek Landep');
+  // Tumpek Wariga: Sabtu Kliwon Wariga
+  if (posWuku === 6 && tgl.getDay() === 6 && panca.nama === 'Kliwon') hasil.push('Tumpek Wariga');
+  // Tumpek Klurut: Sabtu Kliwon Krulut
+  if (posWuku === 15 && tgl.getDay() === 6 && panca.nama === 'Kliwon') hasil.push('Tumpek Klurut');
+  // Kajeng Kliwon
+  if (panca.nama === 'Kliwon' && (sapta.nama === 'Anggara' || sapta.nama === 'Buda')) hasil.push('Kajeng Kliwon');
+
+  return hasil;
+}
+
+// Dewasa Ayu berdasarkan kombinasi wuku + saptawara + pancawara
+function getDewasa(tgl) {
+  const ref = new Date('2002-01-06T00:00:00');
+  const selisih = Math.floor((tgl - ref) / 86400000);
+  const pos210 = ((selisih % 210) + 210) % 210;
+  const noWuku = Math.floor(pos210 / 7);
+  const idxPanca = (4 + ((selisih % 5) + 5) % 5) % 5;
+  const panca = PANCAWARA[idxPanca];
+  const sapta = SAPTAWARA[tgl.getDay()];
+  const neptu = sapta.urip + panca.urip;
+
+  const dewasa = { pernikahan: false, ngaben: false, manusa: false, info: [] };
+
+  // Dewasa Ayu Pernikahan: neptu tinggi, wuku tertentu, bukan hari pantangan
+  const wukuBaikNikah = [0,1,3,5,8,10,13,14,18,24]; // Sinta,Landep,Kulantir,Tolu,Julungpujut,Kuningan,Medangsia,Pujut,Tambir,Bala
+  const saptaBaikNikah = ['Soma','Buda','Wraspati','Sukra'];
+  const pancaBaikNikah = ['Umanis','Pon','Kliwon'];
+  if (wukuBaikNikah.includes(noWuku) && saptaBaikNikah.includes(sapta.nama) && pancaBaikNikah.includes(panca.nama) && neptu >= 11) {
+    dewasa.pernikahan = true;
+    dewasa.info.push('💍 Dewasa Ayu Pernikahan');
+  }
+
+  // Dewasa Ayu Ngaben: wuku tertentu, neptu sedang-tinggi
+  const wukuBaikNgaben = [2,4,6,7,11,15,16,19,22,25,27];
+  const saptaBaikNgaben = ['Redite','Soma','Wraspati','Saniscara'];
+  if (wukuBaikNgaben.includes(noWuku) && saptaBaikNgaben.includes(sapta.nama) && neptu >= 9) {
+    dewasa.ngaben = true;
+    dewasa.info.push('🔥 Dewasa Ayu Ngaben');
+  }
+
+  // Manusa Yadnya (potong rambut bayi, otonan, dll): wuku baik, pancawara baik
+  const wukuBaikManusa = [0,3,5,8,13,14,17,24,25,28];
+  const pancaBaikManusa = ['Umanis','Pon','Kliwon'];
+  if (wukuBaikManusa.includes(noWuku) && pancaBaikManusa.includes(panca.nama)) {
+    dewasa.manusa = true;
+    dewasa.info.push('👶 Dewasa Ayu Manusa Yadnya');
+  }
+
+  return dewasa;
+}
+
+function getKualitasKalender(tgl) {
+  const ref = new Date('2002-01-06T00:00:00');
+  const selisih = Math.floor((tgl - ref) / 86400000);
+  const idxPanca = (4 + ((selisih % 5) + 5) % 5) % 5;
+  const panca = PANCAWARA[idxPanca];
+  const sapta = SAPTAWARA[tgl.getDay()];
+  return kualitasHari(sapta.urip, panca.urip, panca.nama, sapta.nama);
+}
+
+function setFilter(f) {
+  filterAktif = f;
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('f-' + f).classList.add('active');
+  renderKalender();
+}
+
+function gantiBuilan(arah) {
+  kalBulan += arah;
+  if (kalBulan > 11) { kalBulan = 0; kalTahun++; }
+  if (kalBulan < 0)  { kalBulan = 11; kalTahun--; }
+  document.getElementById('kal-detail').style.display = 'none';
+  renderKalender();
+}
+
+function renderKalender() {
+  document.getElementById('kal-bulan-label').textContent = `${BULAN_PANJANG[kalBulan]} ${kalTahun}`;
+  const today = new Date(); today.setHours(0,0,0,0);
+  const firstDay = new Date(kalTahun, kalBulan, 1).getDay();
+  const jumlahHari = new Date(kalTahun, kalBulan + 1, 0).getDate();
+
+  let html = '';
+  // Empty cells
+  for (let i = 0; i < firstDay; i++) html += `<div class="kal-day empty"></div>`;
+
+  for (let d = 1; d <= jumlahHari; d++) {
+    const tgl = new Date(kalTahun, kalBulan, d);
+    const isToday = tgl.getTime() === today.getTime();
+    const hariRaya = getHariRaya(tgl);
+    const dewasa = getDewasa(tgl);
+    const kualitas = getKualitasKalender(tgl);
+
+    // Tentukan class utama
+    let cls = kualitas.kelas;
+    if (hariRaya.length > 0) cls = hariRaya.some(h => h.includes('Galungan') || h.includes('Kuningan') || h.includes('Saraswati') || h.includes('Pagerwesi')) ? 'hariraya' : 'istimewa';
+
+    // Filter dewasa
+    let tampil = true;
+    if (filterAktif === 'pernikahan' && !dewasa.pernikahan) tampil = false;
+    if (filterAktif === 'ngaben' && !dewasa.ngaben) tampil = false;
+    if (filterAktif === 'manusa' && !dewasa.manusa) tampil = false;
+
+    const dewasaCls = (dewasa.pernikahan || dewasa.ngaben || dewasa.manusa) ? 'dewasa-ayu' : '';
+    const todayCls = isToday ? 'today' : '';
+    const opacity = tampil ? '' : 'style="opacity:0.2"';
+
+    let dotCls = cls === 'hariraya' ? 'dot-hariraya' : cls === 'istimewa' ? 'dot-istimewa' : cls === 'baik' ? 'dot-baik' : cls === 'kurang' ? 'dot-kurang' : '';
+    if (dewasa.pernikahan || dewasa.ngaben || dewasa.manusa) dotCls = 'dot-dewasa';
+
+    html += `<div class="kal-day ${cls} ${dewasaCls} ${todayCls}" ${opacity} onclick="showDetail(${d})">
+      <span class="tgl-num">${d}</span>
+      <div class="tgl-dot ${dotCls}"></div>
+    </div>`;
+  }
+
+  document.getElementById('kal-grid').innerHTML = html;
+}
+
+function showDetail(d) {
+  const tgl = new Date(kalTahun, kalBulan, d);
+  const ref = new Date('2002-01-06T00:00:00');
+  const selisih = Math.floor((tgl - ref) / 86400000);
+  const pos210 = ((selisih % 210) + 210) % 210;
+  const noWuku = Math.floor(pos210 / 7);
+  const wuku = WUKU[noWuku];
+  const sapta = SAPTAWARA[tgl.getDay()];
+  const idxPanca = (4 + ((selisih % 5) + 5) % 5) % 5;
+  const panca = PANCAWARA[idxPanca];
+  const kualitas = kualitasHari(sapta.urip, panca.urip, panca.nama, sapta.nama);
+  const hariRaya = getHariRaya(tgl);
+  const dewasa = getDewasa(tgl);
+  const neptu = sapta.urip + panca.urip;
+
+  const hariNama = ['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'];
+  const tglStr = `${hariNama[tgl.getDay()]}, ${d} ${BULAN_PANJANG[kalBulan]} ${kalTahun}`;
+
+  let hariRayaHtml = hariRaya.length > 0
+    ? `<div style="margin-bottom:8px;">${hariRaya.map(h => `<span style="background:rgba(100,181,246,0.2);border:1px solid rgba(100,181,246,0.4);color:#90caf9;padding:2px 10px;border-radius:12px;font-size:0.8rem;margin-right:4px;">🎊 ${h}</span>`).join('')}</div>` : '';
+
+  let dewasaHtml = dewasa.info.length > 0
+    ? `<div style="margin-bottom:8px;">${dewasa.info.map(d => `<span style="background:rgba(255,204,128,0.2);border:1px solid rgba(255,204,128,0.4);color:#ffcc80;padding:2px 10px;border-radius:12px;font-size:0.8rem;margin-right:4px;">${d}</span>`).join('')}</div>` : '';
+
+  const cocokUntukTeks = dewasa.info.length > 0
+    ? dewasa.info.map(d => {
+        if (d.includes('Pernikahan')) return 'Upacara pernikahan, lamaran, tunangan';
+        if (d.includes('Ngaben')) return 'Upacara ngaben, palebon, atma wedana';
+        if (d.includes('Manusa')) return 'Potong rambut bayi, otonan, metatah, mapandes';
+        return '';
+      }).filter(Boolean).join(' · ')
+    : cocokUntuk(kualitas.kelas);
+
+  const badgeColor = kualitas.kelas === 'baik' ? '#81c784' : kualitas.kelas === 'kurang' ? '#ef9a9a' : kualitas.kelas === 'istimewa' ? '#ce93d8' : '#e8b84b';
+
+  document.getElementById('kal-detail-isi').innerHTML = `
+    <div style="margin-bottom:10px;">
+      <div style="font-family:'Cinzel Decorative',serif; font-size:0.95rem; color:var(--gold-light); margin-bottom:4px;">${tglStr}</div>
+      <div style="font-size:0.8rem; color:var(--gold); opacity:0.8;">${sapta.nama} ${panca.nama} · Wuku ${wuku.nama} · Neptu ${neptu}</div>
+    </div>
+    ${hariRayaHtml}${dewasaHtml}
+    <div style="display:flex; align-items:center; gap:8px; margin-bottom:10px;">
+      <span style="background:rgba(42,26,8,0.8); border:1px solid ${badgeColor}40; color:${badgeColor}; padding:3px 12px; border-radius:12px; font-size:0.8rem;">${kualitas.label}</span>
+    </div>
+    <div style="font-size:0.9rem; color:var(--gold-pale); opacity:0.85; line-height:1.5; margin-bottom:8px;">
+      ${prediksiTeks(wuku, sapta.nama, panca.nama, kualitas)}
+    </div>
+    <div style="font-size:0.82rem; color:var(--gold); opacity:0.7;">✦ Cocok untuk: ${cocokUntukTeks}</div>
+  `;
+
+  const det = document.getElementById('kal-detail');
+  det.style.display = 'block';
+  det.style.animation = 'none'; det.offsetHeight;
+  det.style.animation = 'fadeUp 0.3s ease forwards';
+}
+
+function bukaKalender() {
+  kalTahun = new Date().getFullYear();
+  kalBulan = new Date().getMonth();
+  filterAktif = 'semua';
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('f-semua').classList.add('active');
+  renderKalender();
+  const el = document.getElementById('card-kalender');
   el.style.display = 'block';
   el.style.animation = 'none'; el.offsetHeight;
   el.style.animation = 'fadeUp 0.6s ease forwards';
