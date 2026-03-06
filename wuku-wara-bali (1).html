@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pawukon Bali — Hitung Wuku & Wara</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Crimson+Pro:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold: #c9933a;
+    --gold-light: #e8b84b;
+    --gold-pale: #f5e6c8;
+    --brown-dark: #2a1a08;
+    --brown: #4a2e0e;
+    --brown-mid: #7a4e20;
+    --cream: #fdf6e3;
+    --red-bali: #8b1a1a;
+    --shadow: rgba(42,26,8,0.4);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background-color: var(--brown-dark);
+    background-image:
+      radial-gradient(ellipse at 20% 20%, rgba(201,147,58,0.08) 0%, transparent 50%),
+      radial-gradient(ellipse at 80% 80%, rgba(139,26,26,0.08) 0%, transparent 50%);
+    min-height: 100vh;
+    font-family: 'Crimson Pro', serif;
+    color: var(--cream);
+    overflow-x: hidden;
+  }
+
+  /* SVG Ornament Bali */
+  .ornament-top {
+    width: 100%;
+    text-align: center;
+    padding: 10px 0 0;
+  }
+
+  .container {
+    max-width: 640px;
+    margin: 0 auto;
+    padding: 0 20px 60px;
+  }
+
+  header {
+    text-align: center;
+    padding: 20px 0 10px;
+    position: relative;
+  }
+
+  .om-symbol {
+    font-size: 2.2rem;
+    color: var(--gold);
+    display: block;
+    margin-bottom: 6px;
+    text-shadow: 0 0 20px rgba(201,147,58,0.6);
+    animation: glow 3s ease-in-out infinite;
+  }
+
+  @keyframes glow {
+    0%,100% { text-shadow: 0 0 20px rgba(201,147,58,0.4); }
+    50% { text-shadow: 0 0 35px rgba(201,147,58,0.9), 0 0 60px rgba(201,147,58,0.3); }
+  }
+
+  h1 {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: 1.5rem;
+    color: var(--gold-light);
+    letter-spacing: 2px;
+    line-height: 1.3;
+    text-shadow: 0 2px 8px var(--shadow);
+  }
+
+  .subtitle {
+    font-size: 0.95rem;
+    color: var(--gold-pale);
+    opacity: 0.7;
+    margin-top: 6px;
+    font-style: italic;
+  }
+
+  /* Divider ornament */
+  .divider {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 16px 0;
+  }
+  .divider-line {
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(to right, transparent, var(--gold), transparent);
+  }
+  .divider-diamond {
+    width: 8px; height: 8px;
+    background: var(--gold);
+    transform: rotate(45deg);
+  }
+
+  /* Card */
+  .card {
+    background: linear-gradient(135deg, rgba(74,46,14,0.8), rgba(42,26,8,0.9));
+    border: 1px solid rgba(201,147,58,0.3);
+    border-radius: 12px;
+    padding: 24px;
+    margin-bottom: 20px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.4), inset 0 1px 0 rgba(201,147,58,0.2);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(to right, transparent, var(--gold), var(--gold-light), var(--gold), transparent);
+  }
+
+  .card-corner {
+    position: absolute;
+    width: 40px; height: 40px;
+    opacity: 0.25;
+  }
+  .card-corner.tl { top: 6px; left: 6px; }
+  .card-corner.tr { top: 6px; right: 6px; transform: scaleX(-1); }
+  .card-corner.bl { bottom: 6px; left: 6px; transform: scaleY(-1); }
+  .card-corner.br { bottom: 6px; right: 6px; transform: scale(-1,-1); }
+
+  label {
+    display: block;
+    font-size: 0.8rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 8px;
+  }
+
+  input[type="date"] {
+    width: 100%;
+    padding: 12px 16px;
+    background: rgba(42,26,8,0.8);
+    border: 1px solid rgba(201,147,58,0.4);
+    border-radius: 8px;
+    color: var(--cream);
+    font-family: 'Crimson Pro', serif;
+    font-size: 1.1rem;
+    outline: none;
+    transition: border-color 0.3s, box-shadow 0.3s;
+    cursor: pointer;
+  }
+
+  input[type="date"]:focus {
+    border-color: var(--gold);
+    box-shadow: 0 0 0 3px rgba(201,147,58,0.15);
+  }
+
+  input[type="date"]::-webkit-calendar-picker-indicator {
+    filter: invert(1) sepia(1) saturate(2) hue-rotate(5deg);
+    cursor: pointer;
+  }
+
+  button {
+    width: 100%;
+    padding: 14px;
+    background: linear-gradient(135deg, var(--brown-mid), var(--gold), var(--brown-mid));
+    background-size: 200% 100%;
+    background-position: right;
+    border: none;
+    border-radius: 8px;
+    color: var(--brown-dark);
+    font-family: 'Cinzel Decorative', serif;
+    font-size: 0.9rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    cursor: pointer;
+    margin-top: 16px;
+    transition: background-position 0.4s, transform 0.2s, box-shadow 0.3s;
+    box-shadow: 0 4px 16px rgba(201,147,58,0.3);
+  }
+
+  button:hover {
+    background-position: left;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 24px rgba(201,147,58,0.5);
+  }
+
+  button:active { transform: translateY(0); }
+
+  /* Result */
+  #result { display: none; animation: fadeUp 0.6s ease forwards; }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .result-header {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+
+  .wuku-name {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: 2rem;
+    color: var(--gold-light);
+    text-shadow: 0 0 20px rgba(201,147,58,0.4);
+    display: block;
+  }
+
+  .wuku-number {
+    font-size: 0.8rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--gold);
+    opacity: 0.7;
+    margin-top: 4px;
+  }
+
+  .info-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin: 16px 0;
+  }
+
+  .info-box {
+    background: rgba(42,26,8,0.6);
+    border: 1px solid rgba(201,147,58,0.2);
+    border-radius: 8px;
+    padding: 12px;
+    text-align: center;
+  }
+
+  .info-box .label {
+    font-size: 0.7rem;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--gold);
+    opacity: 0.7;
+    display: block;
+    margin-bottom: 4px;
+  }
+
+  .info-box .value {
+    font-size: 1.05rem;
+    color: var(--cream);
+    font-weight: 400;
+  }
+
+  .info-box.full { grid-column: 1 / -1; }
+
+  .section-title {
+    font-size: 0.75rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin: 16px 0 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .section-title::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: rgba(201,147,58,0.3);
+  }
+
+  .sifat-list {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 14px;
+  }
+
+  .sifat-list li {
+    background: rgba(201,147,58,0.1);
+    border: 1px solid rgba(201,147,58,0.3);
+    border-radius: 20px;
+    padding: 4px 14px;
+    font-size: 0.9rem;
+    color: var(--gold-pale);
+  }
+
+  .ramalan-row {
+    display: flex;
+    gap: 10px;
+    padding: 8px 0;
+    border-bottom: 1px solid rgba(201,147,58,0.1);
+    font-size: 0.95rem;
+    align-items: flex-start;
+  }
+
+  .ramalan-row:last-child { border-bottom: none; }
+
+  .ramalan-icon { font-size: 1.1rem; flex-shrink: 0; margin-top: 1px; }
+  .ramalan-key { color: var(--gold); min-width: 80px; font-size: 0.85rem; }
+  .ramalan-val { color: var(--gold-pale); opacity: 0.85; line-height: 1.4; }
+
+  .pantangan-box {
+    background: rgba(139,26,26,0.2);
+    border: 1px solid rgba(139,26,26,0.4);
+    border-radius: 8px;
+    padding: 12px 14px;
+    font-size: 0.9rem;
+    color: #ffb3b3;
+    margin-top: 10px;
+    line-height: 1.5;
+  }
+
+  .hari-card {
+    background: rgba(42,26,8,0.6);
+    border: 1px solid rgba(201,147,58,0.2);
+    border-radius: 10px;
+    padding: 14px 16px;
+    margin-bottom: 10px;
+    transition: border-color 0.3s;
+  }
+  .hari-card.baik { border-left: 3px solid #4caf50; }
+  .hari-card.sedang { border-left: 3px solid var(--gold); }
+  .hari-card.kurang { border-left: 3px solid #e57373; }
+  .hari-card.istimewa { border-left: 3px solid #ce93d8; background: rgba(74,26,74,0.3); }
+
+  .hari-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+  }
+  .hari-tanggal { font-family:'Cinzel Decorative',serif; font-size:0.85rem; color:var(--gold-light); }
+  .hari-wara { font-size:0.8rem; color:var(--gold); opacity:0.8; }
+  .hari-badge {
+    font-size:0.7rem;
+    padding: 2px 10px;
+    border-radius: 12px;
+    font-weight: bold;
+    letter-spacing: 0.5px;
+  }
+  .badge-baik { background: rgba(76,175,80,0.2); color: #81c784; border: 1px solid rgba(76,175,80,0.4); }
+  .badge-sedang { background: rgba(201,147,58,0.2); color: var(--gold-light); border: 1px solid rgba(201,147,58,0.4); }
+  .badge-kurang { background: rgba(229,115,115,0.2); color: #ef9a9a; border: 1px solid rgba(229,115,115,0.4); }
+  .badge-istimewa { background: rgba(206,147,216,0.2); color: #ce93d8; border: 1px solid rgba(206,147,216,0.4); }
+
+  .hari-prediksi { font-size:0.9rem; color:var(--gold-pale); opacity:0.85; line-height:1.5; }
+  .hari-cocok { font-size:0.8rem; color:var(--gold); opacity:0.7; margin-top:5px; }
+
+    text-align: center;
+    margin-top: 30px;
+    color: var(--gold);
+    opacity: 0.3;
+    font-size: 1.5rem;
+  }
+
+  /* Balinese decorative SVG patterns */
+  .bali-border {
+    width: 100%;
+    height: 24px;
+    margin: 8px 0;
+  }
+</style>
+</head>
+<body>
+
+<!-- Top Ornament SVG -->
+<div class="ornament-top">
+  <svg width="320" height="60" viewBox="0 0 320 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <!-- Center lotus -->
+    <circle cx="160" cy="30" r="12" fill="none" stroke="#c9933a" stroke-width="1"/>
+    <circle cx="160" cy="30" r="6" fill="#c9933a" opacity="0.6"/>
+    <!-- Petals -->
+    <ellipse cx="160" cy="14" rx="4" ry="8" fill="#c9933a" opacity="0.4"/>
+    <ellipse cx="160" cy="46" rx="4" ry="8" fill="#c9933a" opacity="0.4"/>
+    <ellipse cx="144" cy="30" rx="8" ry="4" fill="#c9933a" opacity="0.4"/>
+    <ellipse cx="176" cy="30" rx="8" ry="4" fill="#c9933a" opacity="0.4"/>
+    <ellipse cx="149" cy="19" rx="4" ry="7" fill="#c9933a" opacity="0.3" transform="rotate(-45 149 19)"/>
+    <ellipse cx="171" cy="19" rx="4" ry="7" fill="#c9933a" opacity="0.3" transform="rotate(45 171 19)"/>
+    <ellipse cx="149" cy="41" rx="4" ry="7" fill="#c9933a" opacity="0.3" transform="rotate(45 149 41)"/>
+    <ellipse cx="171" cy="41" rx="4" ry="7" fill="#c9933a" opacity="0.3" transform="rotate(-45 171 41)"/>
+    <!-- Extending lines with spirals -->
+    <path d="M 148 30 Q 120 20 100 30 Q 80 40 60 30 Q 40 20 20 30" stroke="#c9933a" stroke-width="1" fill="none" opacity="0.5"/>
+    <path d="M 172 30 Q 200 20 220 30 Q 240 40 260 30 Q 280 20 300 30" stroke="#c9933a" stroke-width="1" fill="none" opacity="0.5"/>
+    <!-- Small diamonds on line -->
+    <rect x="57" y="27" width="6" height="6" fill="#c9933a" opacity="0.6" transform="rotate(45 60 30)"/>
+    <rect x="97" y="27" width="6" height="6" fill="#c9933a" opacity="0.6" transform="rotate(45 100 30)"/>
+    <rect x="217" y="27" width="6" height="6" fill="#c9933a" opacity="0.6" transform="rotate(45 220 30)"/>
+    <rect x="257" y="27" width="6" height="6" fill="#c9933a" opacity="0.6" transform="rotate(45 260 30)"/>
+  </svg>
+</div>
+
+<div class="container">
+  <header>
+    <span class="om-symbol">ᬒᬁ</span>
+    <h1>Pawukon Bali</h1>
+    <p class="subtitle">Penghitung Wuku & Wara berdasarkan tanggal lahir</p>
+  </header>
+
+  <div class="divider">
+    <div class="divider-line"></div>
+    <div class="divider-diamond"></div>
+    <div class="divider-line"></div>
+  </div>
+
+  <div class="card">
+    <!-- Corner ornaments -->
+    <svg class="card-corner tl" viewBox="0 0 40 40" fill="none">
+      <path d="M2 38 Q2 2 38 2" stroke="#c9933a" stroke-width="1.5" fill="none"/>
+      <path d="M2 30 Q10 10 30 2" stroke="#c9933a" stroke-width="0.8" fill="none"/>
+      <circle cx="2" cy="2" r="3" fill="#c9933a"/>
+    </svg>
+    <svg class="card-corner tr" viewBox="0 0 40 40" fill="none">
+      <path d="M2 38 Q2 2 38 2" stroke="#c9933a" stroke-width="1.5" fill="none"/>
+      <path d="M2 30 Q10 10 30 2" stroke="#c9933a" stroke-width="0.8" fill="none"/>
+      <circle cx="2" cy="2" r="3" fill="#c9933a"/>
+    </svg>
+    <svg class="card-corner bl" viewBox="0 0 40 40" fill="none">
+      <path d="M2 38 Q2 2 38 2" stroke="#c9933a" stroke-width="1.5" fill="none"/>
+      <path d="M2 30 Q10 10 30 2" stroke="#c9933a" stroke-width="0.8" fill="none"/>
+      <circle cx="2" cy="2" r="3" fill="#c9933a"/>
+    </svg>
+    <svg class="card-corner br" viewBox="0 0 40 40" fill="none">
+      <path d="M2 38 Q2 2 38 2" stroke="#c9933a" stroke-width="1.5" fill="none"/>
+      <path d="M2 30 Q10 10 30 2" stroke="#c9933a" stroke-width="0.8" fill="none"/>
+      <circle cx="2" cy="2" r="3" fill="#c9933a"/>
+    </svg>
+
+    <label for="tgl">Tanggal Lahir</label>
+    <input type="date" id="tgl" max="2099-12-31" min="1900-01-01">
+    <button onclick="hitung()">✦ Hitung Wuku & Wara ✦</button>
+  </div>
+
+  <!-- Result -->
+  <div class="card" id="result">
+    <svg class="card-corner tl" viewBox="0 0 40 40" fill="none">
+      <path d="M2 38 Q2 2 38 2" stroke="#c9933a" stroke-width="1.5" fill="none"/>
+      <circle cx="2" cy="2" r="3" fill="#c9933a"/>
+    </svg>
+    <svg class="card-corner tr" viewBox="0 0 40 40" fill="none">
+      <path d="M2 38 Q2 2 38 2" stroke="#c9933a" stroke-width="1.5" fill="none"/>
+      <circle cx="2" cy="2" r="3" fill="#c9933a"/>
+    </svg>
+    <svg class="card-corner bl" viewBox="0 0 40 40" fill="none">
+      <path d="M2 38 Q2 2 38 2" stroke="#c9933a" stroke-width="1.5" fill="none"/>
+      <circle cx="2" cy="2" r="3" fill="#c9933a"/>
+    </svg>
+    <svg class="card-corner br" viewBox="0 0 40 40" fill="none">
+      <path d="M2 38 Q2 2 38 2" stroke="#c9933a" stroke-width="1.5" fill="none"/>
+      <circle cx="2" cy="2" r="3" fill="#c9933a"/>
+    </svg>
+
+    <div class="result-header">
+      <span class="wuku-name" id="res-wuku"></span>
+      <div class="wuku-number" id="res-wuku-no"></div>
+    </div>
+
+    <div class="divider">
+      <div class="divider-line"></div>
+      <div class="divider-diamond"></div>
+      <div class="divider-line"></div>
+    </div>
+
+    <div class="info-grid">
+      <div class="info-box">
+        <span class="label">Saptawara</span>
+        <span class="value" id="res-sapta"></span>
+      </div>
+      <div class="info-box">
+        <span class="label">Pancawara</span>
+        <span class="value" id="res-panca"></span>
+      </div>
+      <div class="info-box">
+        <span class="label">Urip Sapta</span>
+        <span class="value" id="res-urip-sapta"></span>
+      </div>
+      <div class="info-box">
+        <span class="label">Urip Panca</span>
+        <span class="value" id="res-urip-panca"></span>
+      </div>
+      <div class="info-box full">
+        <span class="label">Neptu (Urip Gabungan)</span>
+        <span class="value" id="res-neptu"></span>
+      </div>
+    </div>
+
+    <div class="section-title">Sifat & Karakter</div>
+    <ul class="sifat-list" id="res-sifat"></ul>
+
+    <div class="section-title">Dewa Pelindung & Info</div>
+    <div id="res-dewa" style="font-size:0.95rem; color:var(--gold-pale); opacity:0.85; line-height:1.6; margin-bottom:12px;"></div>
+
+    <div class="section-title">Ramalan</div>
+    <div id="res-ramalan"></div>
+
+    <div class="pantangan-box" id="res-pantangan"></div>
+
+    <button onclick="hitungHarian()" id="btn-harian" style="margin-top:16px; background: linear-gradient(135deg, #1a2a4a, #2e4a8a, #1a2a4a); color: #a8c4f0; font-size:0.85rem;">
+      🔮 Lihat Prediksi 7 Hari ke Depan
+    </button>
+  </div>
+
+  <!-- Prediksi Harian Card -->
+  <div class="card" id="card-harian" style="display:none;">
+    <svg class="card-corner tl" viewBox="0 0 40 40" fill="none"><path d="M2 38 Q2 2 38 2" stroke="#c9933a" stroke-width="1.5" fill="none"/><circle cx="2" cy="2" r="3" fill="#c9933a"/></svg>
+    <svg class="card-corner tr" viewBox="0 0 40 40" fill="none"><path d="M2 38 Q2 2 38 2" stroke="#c9933a" stroke-width="1.5" fill="none"/><circle cx="2" cy="2" r="3" fill="#c9933a"/></svg>
+    <svg class="card-corner bl" viewBox="0 0 40 40" fill="none"><path d="M2 38 Q2 2 38 2" stroke="#c9933a" stroke-width="1.5" fill="none"/><circle cx="2" cy="2" r="3" fill="#c9933a"/></svg>
+    <svg class="card-corner br" viewBox="0 0 40 40" fill="none"><path d="M2 38 Q2 2 38 2" stroke="#c9933a" stroke-width="1.5" fill="none"/><circle cx="2" cy="2" r="3" fill="#c9933a"/></svg>
+
+    <div style="text-align:center; margin-bottom:16px;">
+      <span style="font-family:'Cinzel Decorative',serif; font-size:1.1rem; color:var(--gold-light);">🔮 Prediksi 7 Hari ke Depan</span>
+      <div style="font-size:0.8rem; color:var(--gold); opacity:0.7; margin-top:4px; letter-spacing:1px;">Berdasarkan Wuku · Saptawara · Pancawara</div>
+    </div>
+
+    <div id="list-harian"></div>
+  </div>
+
+  <!-- Bottom ornament -->
+  <div style="text-align:center; margin-top:10px;">
+    <svg width="280" height="30" viewBox="0 0 280 30" fill="none">
+      <path d="M10 15 Q70 5 140 15 Q210 25 270 15" stroke="#c9933a" stroke-width="1" fill="none" opacity="0.4"/>
+      <rect x="137" y="12" width="6" height="6" fill="#c9933a" opacity="0.6" transform="rotate(45 140 15)"/>
+      <circle cx="10" cy="15" r="3" fill="#c9933a" opacity="0.4"/>
+      <circle cx="270" cy="15" r="3" fill="#c9933a" opacity="0.4"/>
+    </svg>
+  </div>
+
+  <div class="footer-om">ᬒᬁ ᬱᬵᬦ᭄ᬢᬶ ᬱᬵᬦ᭄ᬢᬶ ᬱᬵᬦ᭄ᬢᬶ</div>
+</div>
+
+<script>
+const WUKU = [
+  { no:1,  nama:"Sinta",        dewa:"Yamadipati", sifat:["Dermawan","Penyayang","Sabar"], rezeki:"Baik, suka menolong", karir:"Sosial, kesehatan, agama", asmara:"Setia dan penuh kasih", pantangan:"Hindari sifat terlalu mudah dimanfaatkan" },
+  { no:2,  nama:"Landep",       dewa:"Mahadewa",   sifat:["Cerdas","Tajam pikiran","Analitis"], rezeki:"Dari kepandaian dan keahlian", karir:"Teknologi, hukum, penelitian", asmara:"Romantis tapi pemilih", pantangan:"Hindari sombong dan terlalu kritis" },
+  { no:3,  nama:"Ukir",         dewa:"Maheswara",  sifat:["Artistik","Kreatif","Halus budi"], rezeki:"Dari seni dan kerajinan", karir:"Seni, desain, kerajinan tangan", asmara:"Perasa dan romantis", pantangan:"Hindari kecemasan berlebihan" },
+  { no:4,  nama:"Kulantir",     dewa:"Sri",        sifat:["Tekun","Hemat","Bijaksana"], rezeki:"Berlimpah jika tekun", karir:"Pertanian, keuangan, perdagangan", asmara:"Stabil dan bertanggung jawab", pantangan:"Hindari pelit dan tertutup" },
+  { no:5,  nama:"Tolu",         dewa:"Brahma",     sifat:["Bersemangat","Berani","Aktif"], rezeki:"Dari usaha keras", karir:"Wirausaha, olahraga, militer", asmara:"Penuh gairah tapi tidak stabil", pantangan:"Hindari gegabah dan emosi" },
+  { no:6,  nama:"Gumbreg",      dewa:"Guru",       sifat:["Bijaksana","Berwibawa","Tenang"], rezeki:"Dari ilmu dan pengalaman", karir:"Pendidikan, konsultasi, spiritual", asmara:"Dewasa dan pengertian", pantangan:"Hindari kaku dan konservatif berlebihan" },
+  { no:7,  nama:"Wariga",       dewa:"Ludra",      sifat:["Kuat","Disiplin","Tegas"], rezeki:"Stabil dari kerja keras", karir:"Manajemen, hukum, militer", asmara:"Protektif dan setia", pantangan:"Hindari keras kepala" },
+  { no:8,  nama:"Warigadean",   dewa:"Sangkara",   sifat:["Sabar","Ulet","Teliti"], rezeki:"Lambat tapi pasti", karir:"Teknik, pertanian, administrasi", asmara:"Setia dan sabar", pantangan:"Hindari pesimis dan ragu-ragu" },
+  { no:9,  nama:"Julungpujut",  dewa:"Indra",      sifat:["Berwibawa","Pemberani","Pemimpin"], rezeki:"Baik, banyak peluang", karir:"Kepemimpinan, politik, bisnis", asmara:"Dominan tapi pengayom", pantangan:"Hindari arogan" },
+  { no:10, nama:"Dungulan",     dewa:"Kala",       sifat:["Kuat","Berkarisma","Ambisius"], rezeki:"Dari perjuangan keras", karir:"Wirausaha, seni, kepemimpinan", asmara:"Setia tapi mudah cemburu", pantangan:"Hindari egois dan temperamental" },
+  { no:11, nama:"Kuningan",     dewa:"Indra",      sifat:["Cerdik","Diplomatis","Fleksibel"], rezeki:"Dari kepandaian bergaul", karir:"Diplomasi, bisnis, humas", asmara:"Menarik dan pandai merayu", pantangan:"Hindari licik dan tidak konsisten" },
+  { no:12, nama:"Langkir",      dewa:"Kala",       sifat:["Tangguh","Strategis","Gigih"], rezeki:"Dari kerja keras dan strategi", karir:"Militer, hukum, wirausaha", asmara:"Setia tapi keras kepala", pantangan:"Hindari emosi dan konflik" },
+  { no:13, nama:"Medangsia",    dewa:"Brahma",     sifat:["Kreatif","Ekspresif","Energik"], rezeki:"Dari kreativitas", karir:"Seni pertunjukan, media, hiburan", asmara:"Penuh gairah dan ekspresif", pantangan:"Hindari tidak stabil dan mudah bosan" },
+  { no:14, nama:"Pujut",        dewa:"Wisnu",      sifat:["Tenang","Penyayang","Spiritual"], rezeki:"Berkah dari kejujuran", karir:"Agama, sosial, kesehatan", asmara:"Lembut dan tulus", pantangan:"Hindari pasif dan tidak tegas" },
+  { no:15, nama:"Pahang",       dewa:"Siwa",       sifat:["Bijaksana","Karismatik","Adil"], rezeki:"Melimpah dengan kebijaksanaan", karir:"Hukum, pemerintahan, spiritual", asmara:"Dewasa dan bertanggung jawab", pantangan:"Hindari terlalu sempurna" },
+  { no:16, nama:"Krulut",       dewa:"Semara",     sifat:["Romantis","Lembut","Artistik"], rezeki:"Dari seni dan hubungan sosial", karir:"Seni, fashion, kecantikan", asmara:"Sangat romantis dan peka", pantangan:"Hindari terlalu sensitif dan cengeng" },
+  { no:17, nama:"Merakih",      dewa:"Kumara",     sifat:["Riang","Optimis","Sosial"], rezeki:"Dari pergaulan luas", karir:"Hiburan, pariwisata, pemasaran", asmara:"Menyenangkan dan penuh cinta", pantangan:"Hindari tidak serius dan boros" },
+  { no:18, nama:"Tambir",       dewa:"Indra",      sifat:["Berwibawa","Tegas","Percaya diri"], rezeki:"Dari kepemimpinan", karir:"Politik, manajemen, militer", asmara:"Dominan dan protektif", pantangan:"Hindari diktator dan tidak mau mendengar" },
+  { no:19, nama:"Medangkungan", dewa:"Wisnu",      sifat:["Stabil","Tekun","Dapat dipercaya"], rezeki:"Stabil dan berkelanjutan", karir:"Keuangan, properti, pertanian", asmara:"Setia dan bertanggung jawab", pantangan:"Hindari monoton dan kurang kreasi" },
+  { no:20, nama:"Matal",        dewa:"Brahma",     sifat:["Aktif","Berani","Inovatif"], rezeki:"Dari keberanian berinovasi", karir:"Teknologi, wirausaha, riset", asmara:"Penuh kejutan dan menarik", pantangan:"Hindari ceroboh dan tidak sabar" },
+  { no:21, nama:"Uye",          dewa:"Mahadewa",   sifat:["Cerdas","Analitis","Mandiri"], rezeki:"Dari keahlian khusus", karir:"Sains, teknologi, penelitian", asmara:"Intelektual dan mandiri", pantangan:"Hindari terlalu rasional dan dingin" },
+  { no:22, nama:"Menail",       dewa:"Sangkara",   sifat:["Sabar","Tabah","Ulet"], rezeki:"Lambat tapi pasti bertumbuh", karir:"Pertanian, kesehatan, teknik", asmara:"Sabar dan pengertian", pantangan:"Hindari terlalu pasif" },
+  { no:23, nama:"Prangbakat",   dewa:"Siwa",       sifat:["Spiritual","Intuitif","Bijak"], rezeki:"Dari keberkahan spiritual", karir:"Agama, konseling, pengobatan", asmara:"Tulus dan penuh pengertian", pantangan:"Hindari terlalu idealis" },
+  { no:24, nama:"Bala",         dewa:"Brahma",     sifat:["Kuat","Pemberani","Energik"], rezeki:"Dari kerja keras dan keberanian", karir:"Olahraga, militer, keamanan", asmara:"Penuh semangat dan protektif", pantangan:"Hindari agresif dan impulsif" },
+  { no:25, nama:"Ugu",          dewa:"Wisnu",      sifat:["Tenang","Penyabar","Murah hati"], rezeki:"Dari kebaikan hati", karir:"Sosial, pendidikan, agama", asmara:"Lembut dan penuh kasih", pantangan:"Hindari terlalu mudah mengalah" },
+  { no:26, nama:"Wayang",       dewa:"Kala",       sifat:["Tangguh","Misterius","Intuitif"], rezeki:"Dari kerja keras dan intuisi", karir:"Seni, spiritualitas, detektif", asmara:"Menarik dan misterius", pantangan:"Hindari tertutup dan curiga berlebihan" },
+  { no:27, nama:"Kelawu",       dewa:"Sri",        sifat:["Rajin","Hemat","Teliti"], rezeki:"Berlimpah dari ketekunan", karir:"Keuangan, pertanian, administrasi", asmara:"Setia dan bertanggung jawab", pantangan:"Hindari terlalu perhitungan" },
+  { no:28, nama:"Dukut",        dewa:"Rudra",      sifat:["Gigih","Tangguh","Tekad kuat"], rezeki:"Dari perjuangan panjang", karir:"Hukum, bisnis, keamanan", asmara:"Setia dan kuat", pantangan:"Hindari keras kepala berlebihan" },
+  { no:29, nama:"Watugunung",   dewa:"Siwa",       sifat:["Karismatik","Pemimpin","Spiritual"], rezeki:"Melimpah dengan keberkahan", karir:"Kepemimpinan spiritual, politik", asmara:"Kuat dan berwibawa", pantangan:"Hindari otoritarian" },
+  { no:30, nama:"Sungsang",     dewa:"Brahma",     sifat:["Dinamis","Adaptif","Kreatif"], rezeki:"Dari kemampuan adaptasi", karir:"Wirausaha, seni, konsultan", asmara:"Dinamis dan menarik", pantangan:"Hindari tidak konsisten" },
+];
+
+const SAPTAWARA = [
+  { nama:"Redite", urip:5 },  // Minggu
+  { nama:"Soma",   urip:4 },  // Senin
+  { nama:"Anggara",urip:3 },  // Selasa
+  { nama:"Buda",   urip:7 },  // Rabu
+  { nama:"Wraspati",urip:8 }, // Kamis
+  { nama:"Sukra",  urip:6 },  // Jumat
+  { nama:"Saniscara",urip:9 } // Sabtu
+];
+
+const PANCAWARA = [
+  { nama:"Umanis", urip:5 },
+  { nama:"Paing",  urip:9 },
+  { nama:"Pon",    urip:7 },
+  { nama:"Wage",   urip:4 },
+  { nama:"Kliwon", urip:8 },
+];
+
+function hitung() {
+  const input = document.getElementById('tgl').value;
+  if (!input) { alert('Pilih tanggal lahir terlebih dahulu'); return; }
+
+  const tgl = new Date(input + 'T00:00:00');
+
+  // Referensi: 6 Januari 2002 = Minggu Kliwon, Wuku Sinta hari ke-1
+  // Referensi terverifikasi umum dari kalender Bali
+  const ref = new Date('2002-01-06T00:00:00');
+  const selisih = Math.floor((tgl - ref) / 86400000);
+
+  // Wuku (siklus 210 hari)
+  let posWuku = ((selisih % 210) + 210) % 210;
+  let noWuku = Math.floor(posWuku / 7);
+  let wuku = WUKU[noWuku];
+
+  // Saptawara (7 hari, Minggu=0)
+  let hariJS = tgl.getDay(); // 0=Minggu
+  let sapta = SAPTAWARA[hariJS];
+
+  // Pancawara (5 hari siklus)
+  // Ref 6 Jan 2002 = Kliwon (index 4)
+  let posPanca = ((selisih % 5) + 5) % 5;
+  let idxPancaRef = 4; // Kliwon
+  let idxPanca = (idxPancaRef + posPanca) % 5;
+  // Koreksi arah
+  let panca = PANCAWARA[idxPanca];
+
+  let neptu = sapta.urip + panca.urip;
+
+  // Tampilkan
+  document.getElementById('res-wuku').textContent = wuku.nama;
+  document.getElementById('res-wuku-no').textContent = `Wuku ke-${wuku.no} dari 30 · Siklus Pawukon 210 Hari`;
+  document.getElementById('res-sapta').textContent = sapta.nama;
+  document.getElementById('res-panca').textContent = panca.nama;
+  document.getElementById('res-urip-sapta').textContent = sapta.urip;
+  document.getElementById('res-urip-panca').textContent = panca.urip;
+  document.getElementById('res-neptu').textContent = `${sapta.urip} + ${panca.urip} = ${neptu}`;
+
+  // Sifat
+  const sifatEl = document.getElementById('res-sifat');
+  sifatEl.innerHTML = wuku.sifat.map(s => `<li>${s}</li>`).join('');
+
+  // Dewa
+  document.getElementById('res-dewa').textContent =
+    `Dewa pelindung wuku ${wuku.nama} adalah ${wuku.dewa}. Mereka yang lahir di wuku ini berada di bawah naungan kekuatan ${wuku.dewa} yang memberi perlindungan dan bimbingan spiritual sepanjang hidup.`;
+
+  // Ramalan
+  const ramalanData = [
+    { icon:'💰', key:'Rezeki',    val: wuku.rezeki },
+    { icon:'💼', key:'Karir',     val: wuku.karir },
+    { icon:'❤️', key:'Asmara',   val: wuku.asmara },
+  ];
+  document.getElementById('res-ramalan').innerHTML = ramalanData.map(r =>
+    `<div class="ramalan-row">
+      <span class="ramalan-icon">${r.icon}</span>
+      <span class="ramalan-key">${r.key}</span>
+      <span class="ramalan-val">${r.val}</span>
+    </div>`
+  ).join('');
+
+  document.getElementById('res-pantangan').innerHTML = `⚠️ <strong>Pantangan:</strong> ${wuku.pantangan}`;
+
+  // Hide prediksi harian saat input baru
+  document.getElementById('card-harian').style.display = 'none';
+  window._wukuLahir = wuku;
+
+  const resultEl = document.getElementById('result');
+  resultEl.style.display = 'block';
+  resultEl.style.animation = 'none';
+  resultEl.offsetHeight;
+  resultEl.style.animation = 'fadeUp 0.6s ease forwards';
+  resultEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+// ===== PREDIKSI HARIAN =====
+const HARI_NAMA = ['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'];
+const BULAN_NAMA = ['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sep','Okt','Nov','Des'];
+
+function kualitasHari(neptSapta, neptPanca, pancaNama, saptaNama) {
+  const total = neptSapta + neptPanca;
+  const isTumpek = pancaNama === 'Kliwon' && saptaNama === 'Saniscara';
+  const isKajengKliwon = pancaNama === 'Kliwon' && (saptaNama === 'Anggara' || saptaNama === 'Buda');
+  if (isTumpek) return { label:'Tumpek 🙏', kelas:'istimewa', badge:'badge-istimewa' };
+  if (isKajengKliwon) return { label:'Kajeng Kliwon', kelas:'istimewa', badge:'badge-istimewa' };
+  if (total >= 15) return { label:'Hari Baik ✓', kelas:'baik', badge:'badge-baik' };
+  if (total >= 11) return { label:'Sedang', kelas:'sedang', badge:'badge-sedang' };
+  return { label:'Kurang Baik', kelas:'kurang', badge:'badge-kurang' };
+}
+
+function prediksiTeks(wuku, saptaNama, pancaNama, kualitas) {
+  const saptaMap = {
+    'Redite':   'Cocok untuk ibadah dan refleksi diri.',
+    'Soma':     'Baik untuk komunikasi dan membangun relasi.',
+    'Anggara':  'Energi kuat untuk kerja keras dan tekad.',
+    'Buda':     'Ideal untuk negosiasi, belajar, dan diskusi.',
+    'Wraspati': 'Hari kebijaksanaan — baik untuk perencanaan.',
+    'Sukra':    'Harmonis untuk seni, asmara, dan hubungan.',
+    'Saniscara':'Hari introspeksi dan ritual spiritual.',
+  };
+  const pancaMap = {
+    'Umanis': 'Awal yang baik untuk memulai sesuatu baru.',
+    'Paing':  'Energi tajam untuk keputusan penting.',
+    'Pon':    'Rezeki mengalir, cocok untuk bisnis.',
+    'Wage':   'Hari introspeksi, hindari konflik.',
+    'Kliwon': 'Hari sakral — perkuat doa dan meditasi.',
+  };
+  if (kualitas.kelas === 'istimewa') {
+    if (kualitas.label.includes('Tumpek')) return `Hari Tumpek — sangat sakral dalam tradisi Bali. Lakukan persembahan dan hindari aktivitas besar duniawi.`;
+    return `Kajeng Kliwon — hari penuh energi spiritual. Perbanyak doa dan ritual perlindungan, waspadai energi negatif.`;
+  }
+  const wukuTeks = kualitas.kelas === 'baik'
+    ? `Wuku ${wuku.nama} memberi energi positif — ${wuku.rezeki.toLowerCase()}.`
+    : kualitas.kelas === 'kurang'
+    ? `Wuku ${wuku.nama} menyarankan kehati-hatian hari ini.`
+    : `Wuku ${wuku.nama} memberikan energi cukup seimbang.`;
+  return `${wukuTeks} ${saptaMap[saptaNama]||''} ${pancaMap[pancaNama]||''}`;
+}
+
+function cocokUntuk(kelas) {
+  const map = {
+    'baik':      'Membuka usaha · Perjalanan · Negosiasi · Lamaran',
+    'sedang':    'Kegiatan rutin · Belajar · Berkumpul keluarga',
+    'kurang':    'Istirahat · Introspeksi · Doa & meditasi',
+    'istimewa':  'Persembahan · Meditasi · Ritual keagamaan',
+  };
+  return map[kelas] || '';
+}
+
+function hitungHarian() {
+  const input = document.getElementById('tgl').value;
+  if (!input) { alert('Hitung wuku lahir dulu'); return; }
+
+  const ref = new Date('2002-01-06T00:00:00');
+  const today = new Date(); today.setHours(0,0,0,0);
+  let html = '';
+
+  for (let i = 0; i < 7; i++) {
+    const tgl = new Date(today);
+    tgl.setDate(today.getDate() + i);
+    const selisih = Math.floor((tgl - ref) / 86400000);
+
+    let posWuku = ((selisih % 210) + 210) % 210;
+    let wuku = WUKU[Math.floor(posWuku / 7)];
+    let sapta = SAPTAWARA[tgl.getDay()];
+    let idxPanca = (4 + ((selisih % 5) + 5) % 5) % 5;
+    let panca = PANCAWARA[idxPanca];
+
+    const k = kualitasHari(sapta.urip, panca.urip, panca.nama, sapta.nama);
+    const pred = prediksiTeks(wuku, sapta.nama, panca.nama, k);
+    const cocok = cocokUntuk(k.kelas);
+    const todayLabel = i === 0 ? ' <span style="font-size:0.7rem;color:#81c784;margin-left:6px;">(Hari ini)</span>' : '';
+    const tglStr = `${HARI_NAMA[tgl.getDay()]}, ${tgl.getDate()} ${BULAN_NAMA[tgl.getMonth()]} ${tgl.getFullYear()}`;
+
+    html += `<div class="hari-card ${k.kelas}">
+      <div class="hari-header">
+        <div>
+          <div class="hari-tanggal">${tglStr}${todayLabel}</div>
+          <div class="hari-wara">${sapta.nama} ${panca.nama} · Wuku ${wuku.nama}</div>
+        </div>
+        <span class="hari-badge ${k.badge}">${k.label}</span>
+      </div>
+      <div class="hari-prediksi">${pred}</div>
+      <div class="hari-cocok">✦ Cocok untuk: ${cocok}</div>
+    </div>`;
+  }
+
+  document.getElementById('list-harian').innerHTML = html;
+  const el = document.getElementById('card-harian');
+  el.style.display = 'block';
+  el.style.animation = 'none'; el.offsetHeight;
+  el.style.animation = 'fadeUp 0.6s ease forwards';
+  el.scrollIntoView({ behavior:'smooth', block:'start' });
+}
+</script>
+</body>
+</html>
