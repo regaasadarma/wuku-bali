@@ -713,36 +713,37 @@
 
 <script>
 const WUKU = [
-  { no:1,  nama:"Sinta",        dewa:"Yamadipati", sifat:["Dermawan","Penyayang","Sabar"], rezeki:"Baik, suka menolong", karir:"Sosial, kesehatan, agama", asmara:"Setia dan penuh kasih", pantangan:"Hindari sifat terlalu mudah dimanfaatkan" },
-  { no:2,  nama:"Landep",       dewa:"Mahadewa",   sifat:["Cerdas","Tajam pikiran","Analitis"], rezeki:"Dari kepandaian dan keahlian", karir:"Teknologi, hukum, penelitian", asmara:"Romantis tapi pemilih", pantangan:"Hindari sombong dan terlalu kritis" },
-  { no:3,  nama:"Ukir",         dewa:"Maheswara",  sifat:["Artistik","Kreatif","Halus budi"], rezeki:"Dari seni dan kerajinan", karir:"Seni, desain, kerajinan tangan", asmara:"Perasa dan romantis", pantangan:"Hindari kecemasan berlebihan" },
-  { no:4,  nama:"Kulantir",     dewa:"Sri",        sifat:["Tekun","Hemat","Bijaksana"], rezeki:"Berlimpah jika tekun", karir:"Pertanian, keuangan, perdagangan", asmara:"Stabil dan bertanggung jawab", pantangan:"Hindari pelit dan tertutup" },
-  { no:5,  nama:"Tolu",         dewa:"Brahma",     sifat:["Bersemangat","Berani","Aktif"], rezeki:"Dari usaha keras", karir:"Wirausaha, olahraga, militer", asmara:"Penuh gairah tapi tidak stabil", pantangan:"Hindari gegabah dan emosi" },
-  { no:6,  nama:"Gumbreg",      dewa:"Guru",       sifat:["Bijaksana","Berwibawa","Tenang"], rezeki:"Dari ilmu dan pengalaman", karir:"Pendidikan, konsultasi, spiritual", asmara:"Dewasa dan pengertian", pantangan:"Hindari kaku dan konservatif berlebihan" },
-  { no:7,  nama:"Wariga",       dewa:"Ludra",      sifat:["Kuat","Disiplin","Tegas"], rezeki:"Stabil dari kerja keras", karir:"Manajemen, hukum, militer", asmara:"Protektif dan setia", pantangan:"Hindari keras kepala" },
-  { no:8,  nama:"Warigadean",   dewa:"Sangkara",   sifat:["Sabar","Ulet","Teliti"], rezeki:"Lambat tapi pasti", karir:"Teknik, pertanian, administrasi", asmara:"Setia dan sabar", pantangan:"Hindari pesimis dan ragu-ragu" },
-  { no:9,  nama:"Julungpujut",  dewa:"Indra",      sifat:["Berwibawa","Pemberani","Pemimpin"], rezeki:"Baik, banyak peluang", karir:"Kepemimpinan, politik, bisnis", asmara:"Dominan tapi pengayom", pantangan:"Hindari arogan" },
-  { no:10, nama:"Dungulan",     dewa:"Kala",       sifat:["Kuat","Berkarisma","Ambisius"], rezeki:"Dari perjuangan keras", karir:"Wirausaha, seni, kepemimpinan", asmara:"Setia tapi mudah cemburu", pantangan:"Hindari egois dan temperamental" },
-  { no:11, nama:"Kuningan",     dewa:"Indra",      sifat:["Cerdik","Diplomatis","Fleksibel"], rezeki:"Dari kepandaian bergaul", karir:"Diplomasi, bisnis, humas", asmara:"Menarik dan pandai merayu", pantangan:"Hindari licik dan tidak konsisten" },
-  { no:12, nama:"Langkir",      dewa:"Kala",       sifat:["Tangguh","Strategis","Gigih"], rezeki:"Dari kerja keras dan strategi", karir:"Militer, hukum, wirausaha", asmara:"Setia tapi keras kepala", pantangan:"Hindari emosi dan konflik" },
-  { no:13, nama:"Medangsia",    dewa:"Brahma",     sifat:["Kreatif","Ekspresif","Energik"], rezeki:"Dari kreativitas", karir:"Seni pertunjukan, media, hiburan", asmara:"Penuh gairah dan ekspresif", pantangan:"Hindari tidak stabil dan mudah bosan" },
-  { no:14, nama:"Pujut",        dewa:"Wisnu",      sifat:["Tenang","Penyayang","Spiritual"], rezeki:"Berkah dari kejujuran", karir:"Agama, sosial, kesehatan", asmara:"Lembut dan tulus", pantangan:"Hindari pasif dan tidak tegas" },
-  { no:15, nama:"Pahang",       dewa:"Siwa",       sifat:["Bijaksana","Karismatik","Adil"], rezeki:"Melimpah dengan kebijaksanaan", karir:"Hukum, pemerintahan, spiritual", asmara:"Dewasa dan bertanggung jawab", pantangan:"Hindari terlalu sempurna" },
-  { no:16, nama:"Krulut",       dewa:"Semara",     sifat:["Romantis","Lembut","Artistik"], rezeki:"Dari seni dan hubungan sosial", karir:"Seni, fashion, kecantikan", asmara:"Sangat romantis dan peka", pantangan:"Hindari terlalu sensitif dan cengeng" },
-  { no:17, nama:"Merakih",      dewa:"Kumara",     sifat:["Riang","Optimis","Sosial"], rezeki:"Dari pergaulan luas", karir:"Hiburan, pariwisata, pemasaran", asmara:"Menyenangkan dan penuh cinta", pantangan:"Hindari tidak serius dan boros" },
-  { no:18, nama:"Tambir",       dewa:"Indra",      sifat:["Berwibawa","Tegas","Percaya diri"], rezeki:"Dari kepemimpinan", karir:"Politik, manajemen, militer", asmara:"Dominan dan protektif", pantangan:"Hindari diktator dan tidak mau mendengar" },
-  { no:19, nama:"Medangkungan", dewa:"Wisnu",      sifat:["Stabil","Tekun","Dapat dipercaya"], rezeki:"Stabil dan berkelanjutan", karir:"Keuangan, properti, pertanian", asmara:"Setia dan bertanggung jawab", pantangan:"Hindari monoton dan kurang kreasi" },
-  { no:20, nama:"Matal",        dewa:"Brahma",     sifat:["Aktif","Berani","Inovatif"], rezeki:"Dari keberanian berinovasi", karir:"Teknologi, wirausaha, riset", asmara:"Penuh kejutan dan menarik", pantangan:"Hindari ceroboh dan tidak sabar" },
-  { no:21, nama:"Uye",          dewa:"Mahadewa",   sifat:["Cerdas","Analitis","Mandiri"], rezeki:"Dari keahlian khusus", karir:"Sains, teknologi, penelitian", asmara:"Intelektual dan mandiri", pantangan:"Hindari terlalu rasional dan dingin" },
-  { no:22, nama:"Menail",       dewa:"Sangkara",   sifat:["Sabar","Tabah","Ulet"], rezeki:"Lambat tapi pasti bertumbuh", karir:"Pertanian, kesehatan, teknik", asmara:"Sabar dan pengertian", pantangan:"Hindari terlalu pasif" },
-  { no:23, nama:"Prangbakat",   dewa:"Siwa",       sifat:["Spiritual","Intuitif","Bijak"], rezeki:"Dari keberkahan spiritual", karir:"Agama, konseling, pengobatan", asmara:"Tulus dan penuh pengertian", pantangan:"Hindari terlalu idealis" },
-  { no:24, nama:"Bala",         dewa:"Brahma",     sifat:["Kuat","Pemberani","Energik"], rezeki:"Dari kerja keras dan keberanian", karir:"Olahraga, militer, keamanan", asmara:"Penuh semangat dan protektif", pantangan:"Hindari agresif dan impulsif" },
-  { no:25, nama:"Ugu",          dewa:"Wisnu",      sifat:["Tenang","Penyabar","Murah hati"], rezeki:"Dari kebaikan hati", karir:"Sosial, pendidikan, agama", asmara:"Lembut dan penuh kasih", pantangan:"Hindari terlalu mudah mengalah" },
-  { no:26, nama:"Wayang",       dewa:"Kala",       sifat:["Tangguh","Misterius","Intuitif"], rezeki:"Dari kerja keras dan intuisi", karir:"Seni, spiritualitas, detektif", asmara:"Menarik dan misterius", pantangan:"Hindari tertutup dan curiga berlebihan" },
-  { no:27, nama:"Kelawu",       dewa:"Sri",        sifat:["Rajin","Hemat","Teliti"], rezeki:"Berlimpah dari ketekunan", karir:"Keuangan, pertanian, administrasi", asmara:"Setia dan bertanggung jawab", pantangan:"Hindari terlalu perhitungan" },
-  { no:28, nama:"Dukut",        dewa:"Rudra",      sifat:["Gigih","Tangguh","Tekad kuat"], rezeki:"Dari perjuangan panjang", karir:"Hukum, bisnis, keamanan", asmara:"Setia dan kuat", pantangan:"Hindari keras kepala berlebihan" },
-  { no:29, nama:"Watugunung",   dewa:"Siwa",       sifat:["Karismatik","Pemimpin","Spiritual"], rezeki:"Melimpah dengan keberkahan", karir:"Kepemimpinan spiritual, politik", asmara:"Kuat dan berwibawa", pantangan:"Hindari otoritarian" },
-  { no:30, nama:"Sungsang",     dewa:"Brahma",     sifat:["Dinamis","Adaptif","Kreatif"], rezeki:"Dari kemampuan adaptasi", karir:"Wirausaha, seni, konsultan", asmara:"Dinamis dan menarik", pantangan:"Hindari tidak konsisten" },
+  // Urutan resmi 30 Wuku Pawukon Bali
+  { no:1,  nama:"Sinta",        dewa:"Yamadipati", sifat:["Dermawan","Penyayang","Sabar"],            rezeki:"Baik, suka menolong",            karir:"Sosial, kesehatan, agama",           asmara:"Setia dan penuh kasih",          pantangan:"Hindari terlalu mudah dimanfaatkan" },
+  { no:2,  nama:"Landep",       dewa:"Mahadewa",   sifat:["Cerdas","Tajam pikiran","Analitis"],       rezeki:"Dari kepandaian dan keahlian",    karir:"Teknologi, hukum, penelitian",       asmara:"Romantis tapi pemilih",          pantangan:"Hindari sombong dan terlalu kritis" },
+  { no:3,  nama:"Ukir",         dewa:"Maheswara",  sifat:["Artistik","Kreatif","Halus budi"],         rezeki:"Dari seni dan kerajinan",         karir:"Seni, desain, kerajinan tangan",     asmara:"Perasa dan romantis",            pantangan:"Hindari kecemasan berlebihan" },
+  { no:4,  nama:"Kulantir",     dewa:"Sri",        sifat:["Tekun","Hemat","Bijaksana"],               rezeki:"Berlimpah jika tekun",            karir:"Pertanian, keuangan, perdagangan",   asmara:"Stabil dan bertanggung jawab",   pantangan:"Hindari pelit dan tertutup" },
+  { no:5,  nama:"Tolu",         dewa:"Brahma",     sifat:["Bersemangat","Berani","Aktif"],            rezeki:"Dari usaha keras",                karir:"Wirausaha, olahraga, militer",       asmara:"Penuh gairah tapi tidak stabil", pantangan:"Hindari gegabah dan emosi" },
+  { no:6,  nama:"Gumbreg",      dewa:"Guru",       sifat:["Bijaksana","Berwibawa","Tenang"],          rezeki:"Dari ilmu dan pengalaman",        karir:"Pendidikan, konsultasi, spiritual",  asmara:"Dewasa dan pengertian",          pantangan:"Hindari kaku dan konservatif" },
+  { no:7,  nama:"Wariga",       dewa:"Ludra",      sifat:["Kuat","Disiplin","Tegas"],                 rezeki:"Stabil dari kerja keras",         karir:"Manajemen, hukum, militer",          asmara:"Protektif dan setia",            pantangan:"Hindari keras kepala" },
+  { no:8,  nama:"Warigadean",   dewa:"Sangkara",   sifat:["Sabar","Ulet","Teliti"],                   rezeki:"Lambat tapi pasti",               karir:"Teknik, pertanian, administrasi",    asmara:"Setia dan sabar",                pantangan:"Hindari pesimis dan ragu-ragu" },
+  { no:9,  nama:"Julungwangi",  dewa:"Indra",      sifat:["Berwibawa","Pemberani","Pemimpin"],        rezeki:"Baik, banyak peluang",            karir:"Kepemimpinan, politik, bisnis",      asmara:"Dominan tapi pengayom",          pantangan:"Hindari arogan" },
+  { no:10, nama:"Sungsang",     dewa:"Brahma",     sifat:["Dinamis","Adaptif","Kreatif"],             rezeki:"Dari kemampuan adaptasi",         karir:"Wirausaha, seni, konsultan",         asmara:"Dinamis dan menarik",            pantangan:"Hindari tidak konsisten" },
+  { no:11, nama:"Dungulan",     dewa:"Kala",       sifat:["Kuat","Berkarisma","Ambisius"],            rezeki:"Dari perjuangan keras",           karir:"Wirausaha, seni, kepemimpinan",      asmara:"Setia tapi mudah cemburu",       pantangan:"Hindari egois dan temperamental" },
+  { no:12, nama:"Kuningan",     dewa:"Indra",      sifat:["Cerdik","Diplomatis","Fleksibel"],         rezeki:"Dari kepandaian bergaul",         karir:"Diplomasi, bisnis, humas",           asmara:"Menarik dan pandai merayu",      pantangan:"Hindari licik dan tidak konsisten" },
+  { no:13, nama:"Langkir",      dewa:"Kala",       sifat:["Tangguh","Strategis","Gigih"],             rezeki:"Dari kerja keras dan strategi",   karir:"Militer, hukum, wirausaha",          asmara:"Setia tapi keras kepala",        pantangan:"Hindari emosi dan konflik" },
+  { no:14, nama:"Medangsia",    dewa:"Brahma",     sifat:["Kreatif","Ekspresif","Energik"],           rezeki:"Dari kreativitas",                karir:"Seni pertunjukan, media, hiburan",   asmara:"Penuh gairah dan ekspresif",     pantangan:"Hindari tidak stabil dan mudah bosan" },
+  { no:15, nama:"Pujut",        dewa:"Wisnu",      sifat:["Tenang","Penyayang","Spiritual"],          rezeki:"Berkah dari kejujuran",           karir:"Agama, sosial, kesehatan",           asmara:"Lembut dan tulus",               pantangan:"Hindari pasif dan tidak tegas" },
+  { no:16, nama:"Pahang",       dewa:"Siwa",       sifat:["Bijaksana","Karismatik","Adil"],           rezeki:"Melimpah dengan kebijaksanaan",   karir:"Hukum, pemerintahan, spiritual",     asmara:"Dewasa dan bertanggung jawab",   pantangan:"Hindari terlalu perfeksionis" },
+  { no:17, nama:"Krulut",       dewa:"Semara",     sifat:["Romantis","Lembut","Artistik"],            rezeki:"Dari seni dan hubungan sosial",   karir:"Seni, fashion, kecantikan",          asmara:"Sangat romantis dan peka",       pantangan:"Hindari terlalu sensitif dan cengeng" },
+  { no:18, nama:"Merakih",      dewa:"Kumara",     sifat:["Riang","Optimis","Sosial"],                rezeki:"Dari pergaulan luas",             karir:"Hiburan, pariwisata, pemasaran",     asmara:"Menyenangkan dan penuh cinta",   pantangan:"Hindari tidak serius dan boros" },
+  { no:19, nama:"Tambir",       dewa:"Indra",      sifat:["Berwibawa","Tegas","Percaya diri"],        rezeki:"Dari kepemimpinan",               karir:"Politik, manajemen, militer",        asmara:"Dominan dan protektif",          pantangan:"Hindari otoriter dan tidak mau mendengar" },
+  { no:20, nama:"Medangkungan", dewa:"Wisnu",      sifat:["Stabil","Tekun","Dapat dipercaya"],        rezeki:"Stabil dan berkelanjutan",        karir:"Keuangan, properti, pertanian",      asmara:"Setia dan bertanggung jawab",    pantangan:"Hindari monoton dan kurang kreasi" },
+  { no:21, nama:"Matal",        dewa:"Brahma",     sifat:["Aktif","Berani","Inovatif"],               rezeki:"Dari keberanian berinovasi",      karir:"Teknologi, wirausaha, riset",        asmara:"Penuh kejutan dan menarik",      pantangan:"Hindari ceroboh dan tidak sabar" },
+  { no:22, nama:"Uye",          dewa:"Mahadewa",   sifat:["Cerdas","Analitis","Mandiri"],             rezeki:"Dari keahlian khusus",            karir:"Sains, teknologi, penelitian",       asmara:"Intelektual dan mandiri",        pantangan:"Hindari terlalu rasional dan dingin" },
+  { no:23, nama:"Menail",       dewa:"Sangkara",   sifat:["Sabar","Tabah","Ulet"],                    rezeki:"Lambat tapi pasti bertumbuh",     karir:"Pertanian, kesehatan, teknik",       asmara:"Sabar dan pengertian",           pantangan:"Hindari terlalu pasif" },
+  { no:24, nama:"Prangbakat",   dewa:"Siwa",       sifat:["Spiritual","Intuitif","Bijak"],            rezeki:"Dari keberkahan spiritual",       karir:"Agama, konseling, pengobatan",       asmara:"Tulus dan penuh pengertian",     pantangan:"Hindari terlalu idealis" },
+  { no:25, nama:"Bala",         dewa:"Brahma",     sifat:["Kuat","Pemberani","Energik"],              rezeki:"Dari kerja keras dan keberanian", karir:"Olahraga, militer, keamanan",        asmara:"Penuh semangat dan protektif",   pantangan:"Hindari agresif dan impulsif" },
+  { no:26, nama:"Ugu",          dewa:"Wisnu",      sifat:["Tenang","Penyabar","Murah hati"],          rezeki:"Dari kebaikan hati",              karir:"Sosial, pendidikan, agama",          asmara:"Lembut dan penuh kasih",         pantangan:"Hindari terlalu mudah mengalah" },
+  { no:27, nama:"Wayang",       dewa:"Kala",       sifat:["Tangguh","Misterius","Intuitif"],          rezeki:"Dari kerja keras dan intuisi",    karir:"Seni, spiritualitas, investigasi",   asmara:"Menarik dan misterius",          pantangan:"Hindari tertutup dan curiga berlebihan" },
+  { no:28, nama:"Kelawu",       dewa:"Sri",        sifat:["Rajin","Hemat","Teliti"],                  rezeki:"Berlimpah dari ketekunan",        karir:"Keuangan, pertanian, administrasi",  asmara:"Setia dan bertanggung jawab",    pantangan:"Hindari terlalu perhitungan" },
+  { no:29, nama:"Dukut",        dewa:"Rudra",      sifat:["Gigih","Tangguh","Tekad kuat"],            rezeki:"Dari perjuangan panjang",         karir:"Hukum, bisnis, keamanan",            asmara:"Setia dan kuat",                 pantangan:"Hindari keras kepala berlebihan" },
+  { no:30, nama:"Watugunung",   dewa:"Siwa",       sifat:["Karismatik","Pemimpin","Spiritual"],       rezeki:"Melimpah dengan keberkahan",      karir:"Kepemimpinan spiritual, politik",    asmara:"Kuat dan berwibawa",             pantangan:"Hindari otoriter" },
 ];
 
 const SAPTAWARA = [
@@ -769,26 +770,17 @@ function hitung() {
 
   const tgl = new Date(input + 'T00:00:00');
 
-  // Referensi: 6 Januari 2002 = Minggu Kliwon, Wuku Sinta hari ke-1
-  // Referensi terverifikasi umum dari kalender Bali
-  const ref = new Date('2002-01-06T00:00:00');
-  const selisih = Math.floor((tgl - ref) / 86400000);
+  const selisih = getSelisih(tgl);
 
-  // Wuku (siklus 210 hari)
-  let posWuku = ((selisih % 210) + 210) % 210;
-  let noWuku = Math.floor(posWuku / 7);
+  // Wuku
+  let noWuku = getWukuIdx(selisih);
   let wuku = WUKU[noWuku];
 
-  // Saptawara (7 hari, Minggu=0)
-  let hariJS = tgl.getDay(); // 0=Minggu
-  let sapta = SAPTAWARA[hariJS];
+  // Saptawara
+  let sapta = SAPTAWARA[tgl.getDay()];
 
-  // Pancawara (5 hari siklus)
-  // Ref 6 Jan 2002 = Kliwon (index 4)
-  let posPanca = ((selisih % 5) + 5) % 5;
-  let idxPancaRef = 4; // Kliwon
-  let idxPanca = (idxPancaRef + posPanca) % 5;
-  // Koreksi arah
+  // Pancawara
+  let idxPanca = getPancaIdx(selisih);
   let panca = PANCAWARA[idxPanca];
 
   let neptu = sapta.urip + panca.urip;
@@ -897,20 +889,17 @@ function hitungHarian() {
   const input = document.getElementById('tgl').value;
   if (!input) { alert('Hitung wuku lahir dulu'); return; }
 
-  const ref = new Date('2002-01-06T00:00:00');
   const today = new Date(); today.setHours(0,0,0,0);
   let html = '';
 
   for (let i = 0; i < 7; i++) {
     const tgl = new Date(today);
     tgl.setDate(today.getDate() + i);
-    const selisih = Math.floor((tgl - ref) / 86400000);
+    const selisih = getSelisih(tgl);
 
-    let posWuku = ((selisih % 210) + 210) % 210;
-    let wuku = WUKU[Math.floor(posWuku / 7)];
+    let wuku = WUKU[getWukuIdx(selisih)];
     let sapta = SAPTAWARA[tgl.getDay()];
-    let idxPanca = (4 + ((selisih % 5) + 5) % 5) % 5;
-    let panca = PANCAWARA[idxPanca];
+    let panca = PANCAWARA[getPancaIdx(selisih)];
 
     const k = kualitasHari(sapta.urip, panca.urip, panca.nama, sapta.nama);
     const pred = prediksiTeks(wuku, sapta.nama, panca.nama, k);
@@ -946,47 +935,56 @@ let filterAktif = 'semua';
 
 const BULAN_PANJANG = ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
 
-// Hari Raya Bali tetap (tidak bergerak per tahun Masehi kecuali Galungan)
-// Galungan dihitung dari siklus 210 hari
+// Referensi AKURAT dari kalenderbali.com (terverifikasi via testing):
+// 1 Maret 2026 = Minggu, Wuku Ugu (index 25), Pancawara Paing (index 1)
+// Kajeng Kliwon Maret 2026: tgl 4 (Rabu Kliwon) dan 24 (Selasa Kliwon) ✓
+const REF_DATE = new Date('2026-03-01T00:00:00');
+const REF_WUKU_POS = 175; // Ugu = index 25, hari pertama = 25*7 = 175
+const REF_PANCA_IDX = 1;  // Paing
+
+function getSelisih(tgl) {
+  return Math.floor((tgl - REF_DATE) / 86400000);
+}
+function getWukuIdx(selisih) {
+  return Math.floor(((selisih + REF_WUKU_POS) % 210 + 210) % 210 / 7);
+}
+function getPancaIdx(selisih) {
+  return ((selisih + REF_PANCA_IDX) % 5 + 5) % 5;
+}
+
 function getHariRaya(tgl) {
-  const ref = new Date('2002-01-06T00:00:00');
-  const selisih = Math.floor((tgl - ref) / 86400000);
-  const pos210 = ((selisih % 210) + 210) % 210;
-  const posWuku = Math.floor(pos210 / 7);
-  const hariDlmWuku = pos210 % 7;
-  const idxPanca = (4 + ((selisih % 5) + 5) % 5) % 5;
+  const selisih = getSelisih(tgl);
+  const noWuku = getWukuIdx(selisih);
+  const idxPanca = getPancaIdx(selisih);
   const panca = PANCAWARA[idxPanca];
   const sapta = SAPTAWARA[tgl.getDay()];
 
   const hasil = [];
 
-  // Galungan: Rabu Kliwon Dungulan (wuku 10, hari 3=Rabu, panca Kliwon)
-  if (posWuku === 9 && tgl.getDay() === 3 && panca.nama === 'Kliwon') hasil.push('Galungan');
-  // Kuningan: Sabtu Kliwon Kuningan (wuku 11, hari 6=Sabtu, panca Kliwon)
-  if (posWuku === 10 && tgl.getDay() === 6 && panca.nama === 'Kliwon') hasil.push('Kuningan');
-  // Pagerwesi: Rabu Kliwon Sinta (wuku 1)
-  if (posWuku === 0 && tgl.getDay() === 3 && panca.nama === 'Kliwon') hasil.push('Pagerwesi');
-  // Saraswati: Sabtu Umanis Watugunung (wuku 29)
-  if (posWuku === 28 && tgl.getDay() === 6 && panca.nama === 'Umanis') hasil.push('Saraswati');
-  // Tumpek Landep: Sabtu Kliwon Landep
-  if (posWuku === 1 && tgl.getDay() === 6 && panca.nama === 'Kliwon') hasil.push('Tumpek Landep');
-  // Tumpek Wariga: Sabtu Kliwon Wariga
-  if (posWuku === 6 && tgl.getDay() === 6 && panca.nama === 'Kliwon') hasil.push('Tumpek Wariga');
-  // Tumpek Klurut: Sabtu Kliwon Krulut
-  if (posWuku === 15 && tgl.getDay() === 6 && panca.nama === 'Kliwon') hasil.push('Tumpek Klurut');
-  // Kajeng Kliwon
+  // Galungan: Rabu Kliwon Dungulan (wuku index 10)
+  if (noWuku === 10 && tgl.getDay() === 3 && panca.nama === 'Kliwon') hasil.push('Galungan');
+  // Kuningan: Sabtu Kliwon Kuningan (wuku index 11)
+  if (noWuku === 11 && tgl.getDay() === 6 && panca.nama === 'Kliwon') hasil.push('Kuningan');
+  // Pagerwesi: Rabu Kliwon Sinta (wuku index 0)
+  if (noWuku === 0 && tgl.getDay() === 3 && panca.nama === 'Kliwon') hasil.push('Pagerwesi');
+  // Saraswati: Sabtu Umanis Watugunung (wuku index 29)
+  if (noWuku === 29 && tgl.getDay() === 6 && panca.nama === 'Umanis') hasil.push('Saraswati');
+  // Tumpek Landep: Sabtu Kliwon Landep (wuku index 1)
+  if (noWuku === 1 && tgl.getDay() === 6 && panca.nama === 'Kliwon') hasil.push('Tumpek Landep');
+  // Tumpek Wariga: Sabtu Kliwon Wariga (wuku index 6)
+  if (noWuku === 6 && tgl.getDay() === 6 && panca.nama === 'Kliwon') hasil.push('Tumpek Wariga');
+  // Tumpek Klurut: Sabtu Kliwon Krulut (wuku index 16)
+  if (noWuku === 16 && tgl.getDay() === 6 && panca.nama === 'Kliwon') hasil.push('Tumpek Klurut');
+  // Kajeng Kliwon: Kliwon + (Anggara atau Buda)
   if (panca.nama === 'Kliwon' && (sapta.nama === 'Anggara' || sapta.nama === 'Buda')) hasil.push('Kajeng Kliwon');
 
   return hasil;
 }
 
-// Dewasa Ayu berdasarkan kombinasi wuku + saptawara + pancawara
 function getDewasa(tgl) {
-  const ref = new Date('2002-01-06T00:00:00');
-  const selisih = Math.floor((tgl - ref) / 86400000);
-  const pos210 = ((selisih % 210) + 210) % 210;
-  const noWuku = Math.floor(pos210 / 7);
-  const idxPanca = (4 + ((selisih % 5) + 5) % 5) % 5;
+  const selisih = getSelisih(tgl);
+  const noWuku = getWukuIdx(selisih);
+  const idxPanca = getPancaIdx(selisih);
   const panca = PANCAWARA[idxPanca];
   const sapta = SAPTAWARA[tgl.getDay()];
   const neptu = sapta.urip + panca.urip;
@@ -1022,9 +1020,8 @@ function getDewasa(tgl) {
 }
 
 function getKualitasKalender(tgl) {
-  const ref = new Date('2002-01-06T00:00:00');
-  const selisih = Math.floor((tgl - ref) / 86400000);
-  const idxPanca = (4 + ((selisih % 5) + 5) % 5) % 5;
+  const selisih = getSelisih(tgl);
+  const idxPanca = getPancaIdx(selisih);
   const panca = PANCAWARA[idxPanca];
   const sapta = SAPTAWARA[tgl.getDay()];
   return kualitasHari(sapta.urip, panca.urip, panca.nama, sapta.nama);
@@ -1090,13 +1087,11 @@ function renderKalender() {
 
 function showDetail(d) {
   const tgl = new Date(kalTahun, kalBulan, d);
-  const ref = new Date('2002-01-06T00:00:00');
-  const selisih = Math.floor((tgl - ref) / 86400000);
-  const pos210 = ((selisih % 210) + 210) % 210;
-  const noWuku = Math.floor(pos210 / 7);
+  const selisih = getSelisih(tgl);
+  const noWuku = getWukuIdx(selisih);
   const wuku = WUKU[noWuku];
   const sapta = SAPTAWARA[tgl.getDay()];
-  const idxPanca = (4 + ((selisih % 5) + 5) % 5) % 5;
+  const idxPanca = getPancaIdx(selisih);
   const panca = PANCAWARA[idxPanca];
   const kualitas = kualitasHari(sapta.urip, panca.urip, panca.nama, sapta.nama);
   const hariRaya = getHariRaya(tgl);
