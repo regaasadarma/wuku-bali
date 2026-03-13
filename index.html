@@ -596,6 +596,134 @@
     opacity: 0.7;
     white-space: nowrap;
   }
+
+  /* ===== KARAKTER / PERSONALITY SECTION ===== */
+  .karakter-section {
+    margin-top: 16px;
+  }
+  .karakter-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 14px;
+  }
+  .karakter-elemen-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 14px;
+    border-radius: 20px;
+    font-size: 0.82rem;
+    font-weight: 400;
+  }
+  .elemen-api { background: rgba(229,57,53,0.15); border: 1px solid rgba(229,57,53,0.4); color: #ef9a9a; }
+  .elemen-tanah { background: rgba(121,85,72,0.2); border: 1px solid rgba(161,136,127,0.5); color: #bcaaa4; }
+  .elemen-udara { background: rgba(100,181,246,0.15); border: 1px solid rgba(100,181,246,0.4); color: #90caf9; }
+  .elemen-air { background: rgba(77,182,172,0.15); border: 1px solid rgba(77,182,172,0.4); color: #80cbc4; }
+  .elemen-ether { background: rgba(206,147,216,0.15); border: 1px solid rgba(206,147,216,0.4); color: #ce93d8; }
+
+  .karakter-desc {
+    font-size: 0.92rem;
+    color: var(--gold-pale);
+    opacity: 0.88;
+    line-height: 1.65;
+    margin-bottom: 14px;
+    padding: 0 2px;
+  }
+
+  .karakter-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 14px;
+  }
+
+  .karakter-box {
+    background: rgba(42,26,8,0.5);
+    border-radius: 10px;
+    padding: 12px 14px;
+    border: 1px solid rgba(201,147,58,0.15);
+  }
+  .karakter-box-title {
+    font-size: 0.7rem;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--gold);
+    opacity: 0.7;
+    margin-bottom: 8px;
+    display: block;
+  }
+  .karakter-tag {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 14px;
+    font-size: 0.82rem;
+    margin: 2px 3px 2px 0;
+  }
+  .tag-kekuatan {
+    background: rgba(76,175,80,0.12);
+    border: 1px solid rgba(76,175,80,0.35);
+    color: #a5d6a7;
+  }
+  .tag-kelemahan {
+    background: rgba(229,115,115,0.1);
+    border: 1px solid rgba(229,115,115,0.3);
+    color: #ef9a9a;
+  }
+
+  .karakter-detail-row {
+    display: flex;
+    gap: 10px;
+    padding: 7px 0;
+    border-bottom: 1px solid rgba(201,147,58,0.08);
+    font-size: 0.9rem;
+    align-items: flex-start;
+  }
+  .karakter-detail-row:last-child { border-bottom: none; }
+  .karakter-detail-icon { font-size: 1rem; flex-shrink: 0; margin-top: 1px; }
+  .karakter-detail-key { color: var(--gold); min-width: 100px; font-size: 0.82rem; }
+  .karakter-detail-val { color: var(--gold-pale); opacity: 0.85; line-height: 1.4; }
+
+  .karakter-tip-box {
+    background: rgba(201,147,58,0.08);
+    border: 1px solid rgba(201,147,58,0.25);
+    border-radius: 10px;
+    padding: 12px 14px;
+    margin-top: 12px;
+    font-size: 0.88rem;
+    color: var(--gold-pale);
+    opacity: 0.85;
+    line-height: 1.55;
+  }
+  .karakter-tip-box strong {
+    color: var(--gold-light);
+  }
+
+  .kecocokan-meter {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 4px;
+  }
+  .meter-bar {
+    flex: 1;
+    height: 6px;
+    border-radius: 3px;
+    background: rgba(42,26,8,0.6);
+    overflow: hidden;
+  }
+  .meter-fill {
+    height: 100%;
+    border-radius: 3px;
+    transition: width 0.6s ease;
+  }
+  .meter-label {
+    font-size: 0.75rem;
+    color: var(--gold);
+    opacity: 0.7;
+    min-width: 30px;
+    text-align: right;
+  }
 </style>
 </head>
 <body>
@@ -718,6 +846,13 @@
     <div class="section-title">Sifat & Karakter</div>
     <ul class="sifat-list" id="res-sifat"></ul>
 
+    <!-- ===== KARAKTER LENGKAP SECTION (NEW) ===== -->
+    <div class="karakter-section" id="karakter-section" style="display:none;">
+      <div class="section-title">🧬 Kepribadian Mendalam</div>
+      <div id="karakter-content"></div>
+    </div>
+    <!-- ===== END KARAKTER SECTION ===== -->
+
     <div class="section-title">Dewa Pelindung & Info</div>
     <div id="res-dewa" style="font-size:0.95rem; color:var(--gold-pale); opacity:0.85; line-height:1.6; margin-bottom:12px;"></div>
 
@@ -825,36 +960,516 @@
 
 <script>
 const WUKU = [
-  { no:1,  nama:"Sinta",        dewa:"Yamadipati", sifat:["Dermawan","Penyayang","Sabar"],            rezeki:"Baik, suka menolong",            karir:"Sosial, kesehatan, agama",           asmara:"Setia dan penuh kasih",          pantangan:"Hindari terlalu mudah dimanfaatkan" },
-  { no:2,  nama:"Landep",       dewa:"Mahadewa",   sifat:["Cerdas","Tajam pikiran","Analitis"],       rezeki:"Dari kepandaian dan keahlian",    karir:"Teknologi, hukum, penelitian",       asmara:"Romantis tapi pemilih",          pantangan:"Hindari sombong dan terlalu kritis" },
-  { no:3,  nama:"Ukir",         dewa:"Maheswara",  sifat:["Artistik","Kreatif","Halus budi"],         rezeki:"Dari seni dan kerajinan",         karir:"Seni, desain, kerajinan tangan",     asmara:"Perasa dan romantis",            pantangan:"Hindari kecemasan berlebihan" },
-  { no:4,  nama:"Kulantir",     dewa:"Sri",        sifat:["Tekun","Hemat","Bijaksana"],               rezeki:"Berlimpah jika tekun",            karir:"Pertanian, keuangan, perdagangan",   asmara:"Stabil dan bertanggung jawab",   pantangan:"Hindari pelit dan tertutup" },
-  { no:5,  nama:"Tolu",         dewa:"Brahma",     sifat:["Bersemangat","Berani","Aktif"],            rezeki:"Dari usaha keras",                karir:"Wirausaha, olahraga, militer",       asmara:"Penuh gairah tapi tidak stabil", pantangan:"Hindari gegabah dan emosi" },
-  { no:6,  nama:"Gumbreg",      dewa:"Guru",       sifat:["Bijaksana","Berwibawa","Tenang"],          rezeki:"Dari ilmu dan pengalaman",        karir:"Pendidikan, konsultasi, spiritual",  asmara:"Dewasa dan pengertian",          pantangan:"Hindari kaku dan konservatif" },
-  { no:7,  nama:"Wariga",       dewa:"Ludra",      sifat:["Kuat","Disiplin","Tegas"],                 rezeki:"Stabil dari kerja keras",         karir:"Manajemen, hukum, militer",          asmara:"Protektif dan setia",            pantangan:"Hindari keras kepala" },
-  { no:8,  nama:"Warigadean",   dewa:"Sangkara",   sifat:["Sabar","Ulet","Teliti"],                   rezeki:"Lambat tapi pasti",               karir:"Teknik, pertanian, administrasi",    asmara:"Setia dan sabar",                pantangan:"Hindari pesimis dan ragu-ragu" },
-  { no:9,  nama:"Julungwangi",  dewa:"Indra",      sifat:["Berwibawa","Pemberani","Pemimpin"],        rezeki:"Baik, banyak peluang",            karir:"Kepemimpinan, politik, bisnis",      asmara:"Dominan tapi pengayom",          pantangan:"Hindari arogan" },
-  { no:10, nama:"Sungsang",     dewa:"Brahma",     sifat:["Dinamis","Adaptif","Kreatif"],             rezeki:"Dari kemampuan adaptasi",         karir:"Wirausaha, seni, konsultan",         asmara:"Dinamis dan menarik",            pantangan:"Hindari tidak konsisten" },
-  { no:11, nama:"Dungulan",     dewa:"Kala",       sifat:["Kuat","Berkarisma","Ambisius"],            rezeki:"Dari perjuangan keras",           karir:"Wirausaha, seni, kepemimpinan",      asmara:"Setia tapi mudah cemburu",       pantangan:"Hindari egois dan temperamental" },
-  { no:12, nama:"Kuningan",     dewa:"Indra",      sifat:["Cerdik","Diplomatis","Fleksibel"],         rezeki:"Dari kepandaian bergaul",         karir:"Diplomasi, bisnis, humas",           asmara:"Menarik dan pandai merayu",      pantangan:"Hindari licik dan tidak konsisten" },
-  { no:13, nama:"Langkir",      dewa:"Kala",       sifat:["Tangguh","Strategis","Gigih"],             rezeki:"Dari kerja keras dan strategi",   karir:"Militer, hukum, wirausaha",          asmara:"Setia tapi keras kepala",        pantangan:"Hindari emosi dan konflik" },
-  { no:14, nama:"Medangsia",    dewa:"Brahma",     sifat:["Kreatif","Ekspresif","Energik"],           rezeki:"Dari kreativitas",                karir:"Seni pertunjukan, media, hiburan",   asmara:"Penuh gairah dan ekspresif",     pantangan:"Hindari tidak stabil dan mudah bosan" },
-  { no:15, nama:"Pujut",        dewa:"Wisnu",      sifat:["Tenang","Penyayang","Spiritual"],          rezeki:"Berkah dari kejujuran",           karir:"Agama, sosial, kesehatan",           asmara:"Lembut dan tulus",               pantangan:"Hindari pasif dan tidak tegas" },
-  { no:16, nama:"Pahang",       dewa:"Siwa",       sifat:["Bijaksana","Karismatik","Adil"],           rezeki:"Melimpah dengan kebijaksanaan",   karir:"Hukum, pemerintahan, spiritual",     asmara:"Dewasa dan bertanggung jawab",   pantangan:"Hindari terlalu perfeksionis" },
-  { no:17, nama:"Krulut",       dewa:"Semara",     sifat:["Romantis","Lembut","Artistik"],            rezeki:"Dari seni dan hubungan sosial",   karir:"Seni, fashion, kecantikan",          asmara:"Sangat romantis dan peka",       pantangan:"Hindari terlalu sensitif dan cengeng" },
-  { no:18, nama:"Merakih",      dewa:"Kumara",     sifat:["Riang","Optimis","Sosial"],                rezeki:"Dari pergaulan luas",             karir:"Hiburan, pariwisata, pemasaran",     asmara:"Menyenangkan dan penuh cinta",   pantangan:"Hindari tidak serius dan boros" },
-  { no:19, nama:"Tambir",       dewa:"Indra",      sifat:["Berwibawa","Tegas","Percaya diri"],        rezeki:"Dari kepemimpinan",               karir:"Politik, manajemen, militer",        asmara:"Dominan dan protektif",          pantangan:"Hindari otoriter dan tidak mau mendengar" },
-  { no:20, nama:"Medangkungan", dewa:"Wisnu",      sifat:["Stabil","Tekun","Dapat dipercaya"],        rezeki:"Stabil dan berkelanjutan",        karir:"Keuangan, properti, pertanian",      asmara:"Setia dan bertanggung jawab",    pantangan:"Hindari monoton dan kurang kreasi" },
-  { no:21, nama:"Matal",        dewa:"Brahma",     sifat:["Aktif","Berani","Inovatif"],               rezeki:"Dari keberanian berinovasi",      karir:"Teknologi, wirausaha, riset",        asmara:"Penuh kejutan dan menarik",      pantangan:"Hindari ceroboh dan tidak sabar" },
-  { no:22, nama:"Uye",          dewa:"Mahadewa",   sifat:["Cerdas","Analitis","Mandiri"],             rezeki:"Dari keahlian khusus",            karir:"Sains, teknologi, penelitian",       asmara:"Intelektual dan mandiri",        pantangan:"Hindari terlalu rasional dan dingin" },
-  { no:23, nama:"Menail",       dewa:"Sangkara",   sifat:["Sabar","Tabah","Ulet"],                    rezeki:"Lambat tapi pasti bertumbuh",     karir:"Pertanian, kesehatan, teknik",       asmara:"Sabar dan pengertian",           pantangan:"Hindari terlalu pasif" },
-  { no:24, nama:"Prangbakat",   dewa:"Siwa",       sifat:["Spiritual","Intuitif","Bijak"],            rezeki:"Dari keberkahan spiritual",       karir:"Agama, konseling, pengobatan",       asmara:"Tulus dan penuh pengertian",     pantangan:"Hindari terlalu idealis" },
-  { no:25, nama:"Bala",         dewa:"Brahma",     sifat:["Kuat","Pemberani","Energik"],              rezeki:"Dari kerja keras dan keberanian", karir:"Olahraga, militer, keamanan",        asmara:"Penuh semangat dan protektif",   pantangan:"Hindari agresif dan impulsif" },
-  { no:26, nama:"Ugu",          dewa:"Wisnu",      sifat:["Tenang","Penyabar","Murah hati"],          rezeki:"Dari kebaikan hati",              karir:"Sosial, pendidikan, agama",          asmara:"Lembut dan penuh kasih",         pantangan:"Hindari terlalu mudah mengalah" },
-  { no:27, nama:"Wayang",       dewa:"Kala",       sifat:["Tangguh","Misterius","Intuitif"],          rezeki:"Dari kerja keras dan intuisi",    karir:"Seni, spiritualitas, investigasi",   asmara:"Menarik dan misterius",          pantangan:"Hindari tertutup dan curiga berlebihan" },
-  { no:28, nama:"Kelawu",       dewa:"Sri",        sifat:["Rajin","Hemat","Teliti"],                  rezeki:"Berlimpah dari ketekunan",        karir:"Keuangan, pertanian, administrasi",  asmara:"Setia dan bertanggung jawab",    pantangan:"Hindari terlalu perhitungan" },
-  { no:29, nama:"Dukut",        dewa:"Rudra",      sifat:["Gigih","Tangguh","Tekad kuat"],            rezeki:"Dari perjuangan panjang",         karir:"Hukum, bisnis, keamanan",            asmara:"Setia dan kuat",                 pantangan:"Hindari keras kepala berlebihan" },
-  { no:30, nama:"Watugunung",   dewa:"Siwa",       sifat:["Karismatik","Pemimpin","Spiritual"],       rezeki:"Melimpah dengan keberkahan",      karir:"Kepemimpinan spiritual, politik",    asmara:"Kuat dan berwibawa",             pantangan:"Hindari otoriter" },
+  {
+    no:1, nama:"Sinta", dewa:"Yamadipati",
+    sifat:["Dermawan","Penyayang","Sabar"],
+    rezeki:"Baik, suka menolong", karir:"Sosial, kesehatan, agama", asmara:"Setia dan penuh kasih", pantangan:"Hindari terlalu mudah dimanfaatkan",
+    karakter: {
+      elemen:"Air", ikon:"🌊", zodiak_ref:"Pisces",
+      deskripsi:"Orang Wuku Sinta memiliki jiwa yang dalam dan penuh empati, mirip dengan sifat air yang mengalir tenang namun kuat. Mereka adalah pendengar yang baik, mudah merasakan emosi orang lain, dan memiliki intuisi spiritual yang tajam. Di balik kelembutan mereka tersimpan ketangguhan batin yang luar biasa.",
+      kekuatan:["Empati tinggi","Intuisi kuat","Penyembuh alami","Setia tanpa syarat","Batin kuat"],
+      kelemahan:["Terlalu berkorban","Mudah terbawa emosi orang lain","Sulit menolak permintaan","Kadang mengabaikan diri sendiri"],
+      hubungan:"Pasangan yang sangat pengertian dan penuh kasih. Butuh partner yang menghargai kedalaman emosi mereka, bukan yang memanfaatkannya.",
+      konflik:"Cenderung menghindari konflik dan memendam perasaan. Perlu belajar mengekspresikan ketidaksetujuan dengan tegas.",
+      motivasi:"Termotivasi oleh keinginan membantu dan melihat orang lain bahagia. Pencapaian pribadi terasa hambar jika tidak bisa dibagikan.",
+      stres:"Saat stres, cenderung menarik diri dan menjadi sangat pendiam. Butuh waktu sendiri di tempat tenang untuk memulihkan energi.",
+      wuku_cocok:["Kulantir","Warigadean","Ugu","Pujut"],
+      persen_cocok: { cinta:85, karir:70, spiritual:95 }
+    }
+  },
+  {
+    no:2, nama:"Landep", dewa:"Mahadewa",
+    sifat:["Cerdas","Tajam pikiran","Analitis"],
+    rezeki:"Dari kepandaian dan keahlian", karir:"Teknologi, hukum, penelitian", asmara:"Romantis tapi pemilih", pantangan:"Hindari sombong dan terlalu kritis",
+    karakter: {
+      elemen:"Udara", ikon:"💨", zodiak_ref:"Aquarius",
+      deskripsi:"Pemilik Wuku Landep adalah pemikir visioner yang selalu berada selangkah di depan. Pikiran mereka tajam bagai pedang Landep — mampu memotong masalah dengan analisis yang presisi. Mereka inovatif, mandiri, dan punya cara pandang unik yang sering dianggap aneh sebelum akhirnya terbukti benar.",
+      kekuatan:["Kecerdasan luar biasa","Pemecah masalah handal","Visioner","Independen","Inovatif"],
+      kelemahan:["Terlalu kritis","Terkesan dingin atau angkuh","Overthinking","Sulit menerima pendapat orang lain"],
+      hubungan:"Membutuhkan partner yang bisa mengimbangi secara intelektual. Tidak tertarik pada hubungan dangkal — mencari kedalaman pemikiran.",
+      konflik:"Menghadapi konflik dengan logika dan argumen tajam. Kadang lupa bahwa tidak semua masalah bisa diselesaikan dengan otak.",
+      motivasi:"Didorong oleh rasa ingin tahu yang tak terbatas dan hasrat untuk memahami segala sesuatu secara mendalam.",
+      stres:"Saat tertekan, menjadi sangat kritis terhadap diri sendiri dan orang lain. Butuh stimulasi mental seperti membaca atau memecahkan teka-teki.",
+      wuku_cocok:["Ukir","Gumbreg","Uye","Matal"],
+      persen_cocok: { cinta:70, karir:95, spiritual:75 }
+    }
+  },
+  {
+    no:3, nama:"Ukir", dewa:"Maheswara",
+    sifat:["Artistik","Kreatif","Halus budi"],
+    rezeki:"Dari seni dan kerajinan", karir:"Seni, desain, kerajinan tangan", asmara:"Perasa dan romantis", pantangan:"Hindari kecemasan berlebihan",
+    karakter: {
+      elemen:"Air", ikon:"🌊", zodiak_ref:"Pisces-kreatif",
+      deskripsi:"Wuku Ukir melahirkan jiwa-jiwa seniman sejati. Mereka melihat keindahan di mana orang lain hanya melihat hal biasa. Tangan mereka seolah digerakkan oleh inspirasi ilahi — apapun yang mereka sentuh bisa menjadi karya seni. Sensitivitas mereka adalah anugerah sekaligus beban.",
+      kekuatan:["Kreativitas tanpa batas","Sensitivitas estetika tinggi","Imajinasi kaya","Kehalusan budi pekerti","Perfeksionis positif"],
+      kelemahan:["Mudah cemas","Terlalu sensitif terhadap kritik","Mood swing","Sering meragukan karya sendiri"],
+      hubungan:"Romantis dan ekspresif dalam menunjukkan kasih sayang. Menghargai keindahan dalam hubungan — kejutan kecil dan gestur bermakna sangat penting bagi mereka.",
+      konflik:"Menghindari konfrontasi langsung. Cenderung mengekspresikan perasaan melalui karya atau tindakan tidak langsung.",
+      motivasi:"Dorongan untuk menciptakan sesuatu yang indah dan bermakna. Mereka merasa hidup ketika berkarya.",
+      stres:"Saat stres, tenggelam dalam proses kreatif sebagai pelarian. Bisa juga menjadi sangat pendiam dan menarik diri.",
+      wuku_cocok:["Landep","Krulut","Merakih","Medangsia"],
+      persen_cocok: { cinta:90, karir:80, spiritual:85 }
+    }
+  },
+  {
+    no:4, nama:"Kulantir", dewa:"Sri",
+    sifat:["Tekun","Hemat","Bijaksana"],
+    rezeki:"Berlimpah jika tekun", karir:"Pertanian, keuangan, perdagangan", asmara:"Stabil dan bertanggung jawab", pantangan:"Hindari pelit dan tertutup",
+    karakter: {
+      elemen:"Tanah", ikon:"🌍", zodiak_ref:"Taurus",
+      deskripsi:"Wuku Kulantir menghasilkan pribadi yang kokoh seperti bumi — stabil, dapat diandalkan, dan penuh kesabaran. Mereka adalah pembangun sejati yang memahami bahwa hal-hal besar membutuhkan waktu. Ketekunan mereka menginspirasi, dan kesetiaan mereka tak tergoyahkan.",
+      kekuatan:["Ketekunan luar biasa","Manajemen keuangan baik","Dapat diandalkan","Loyal","Berpikir jangka panjang"],
+      kelemahan:["Terlalu hemat hingga terkesan pelit","Kaku dan sulit berubah","Lambat dalam mengambil keputusan","Materialistis"],
+      hubungan:"Partner yang sangat setia dan stabil. Membangun hubungan dengan perlahan tapi pasti. Menunjukkan cinta melalui tindakan nyata, bukan kata-kata.",
+      konflik:"Sangat sabar, tapi jika sudah marah, sulit untuk memaafkan. Lebih suka mendiamkan daripada bertengkar.",
+      motivasi:"Didorong oleh keamanan finansial dan stabilitas hidup. Ingin membangun fondasi yang kuat untuk diri dan keluarga.",
+      stres:"Saat stres, menjadi lebih tertutup dan fokus pada pekerjaan. Butuh kenyamanan fisik — makanan enak, tempat nyaman.",
+      wuku_cocok:["Sinta","Kelawu","Medangkungan","Warigadean"],
+      persen_cocok: { cinta:80, karir:90, spiritual:70 }
+    }
+  },
+  {
+    no:5, nama:"Tolu", dewa:"Brahma",
+    sifat:["Bersemangat","Berani","Aktif"],
+    rezeki:"Dari usaha keras", karir:"Wirausaha, olahraga, militer", asmara:"Penuh gairah tapi tidak stabil", pantangan:"Hindari gegabah dan emosi",
+    karakter: {
+      elemen:"Api", ikon:"🔥", zodiak_ref:"Aries",
+      deskripsi:"Wuku Tolu membawa semangat api Brahma — berkobar, berani, dan tak kenal takut. Mereka adalah pionir yang selalu ingin menjadi yang pertama. Energi mereka menular dan mampu menghidupkan semangat orang-orang di sekitarnya. Hidup mereka adalah petualangan yang tak pernah membosankan.",
+      kekuatan:["Keberanian luar biasa","Energi tinggi","Inisiator","Semangat kompetitif","Pantang menyerah"],
+      kelemahan:["Impulsif","Mudah bosan","Temperamental","Tidak sabar","Kadang egois"],
+      hubungan:"Penuh gairah di awal, tapi butuh usaha untuk menjaga api tetap menyala. Perlu partner yang mandiri dan tidak terlalu bergantung.",
+      konflik:"Langsung dan frontal. Tidak suka basa-basi — lebih baik bertengkar lalu selesai daripada memendam.",
+      motivasi:"Tantangan baru dan adrenalin. Mereka butuh tujuan yang ambisius untuk merasa hidup.",
+      stres:"Saat stres, menjadi lebih agresif dan tidak sabar. Butuh aktivitas fisik intens untuk menyalurkan energi.",
+      wuku_cocok:["Bala","Dungulan","Tambir","Julungwangi"],
+      persen_cocok: { cinta:75, karir:85, spiritual:65 }
+    }
+  },
+  {
+    no:6, nama:"Gumbreg", dewa:"Guru",
+    sifat:["Bijaksana","Berwibawa","Tenang"],
+    rezeki:"Dari ilmu dan pengalaman", karir:"Pendidikan, konsultasi, spiritual", asmara:"Dewasa dan pengertian", pantangan:"Hindari kaku dan konservatif",
+    karakter: {
+      elemen:"Ether", ikon:"✨", zodiak_ref:"Sagittarius",
+      deskripsi:"Wuku Gumbreg membawa kebijaksanaan Sang Guru — mereka adalah jiwa-jiwa tua yang memahami kehidupan dengan kedalaman luar biasa. Orang-orang secara alami mencari nasihat mereka. Kewibawaan mereka bukan dari jabatan, melainkan dari kedalaman pengalaman dan pengetahuan.",
+      kekuatan:["Kebijaksanaan alami","Kewibawaan tanpa paksaan","Pendengar yang baik","Pemikir filosofis","Penasihat handal"],
+      kelemahan:["Terlalu konservatif","Menggurui","Lambat beradaptasi dengan hal baru","Kadang terkesan sombong"],
+      hubungan:"Partner yang dewasa dan penuh pengertian. Hubungan mereka dibangun atas dasar saling menghormati dan diskusi bermakna.",
+      konflik:"Menyelesaikan konflik dengan dialog dan kebijaksanaan. Jarang kehilangan kendali emosi.",
+      motivasi:"Hasrat untuk memahami kebenaran dan berbagi pengetahuan. Mereka merasa terpanggil untuk membimbing.",
+      stres:"Saat stres, mencari ketenangan melalui meditasi, membaca, atau berdiskusi dengan orang bijak lainnya.",
+      wuku_cocok:["Pahang","Prangbakat","Watugunung","Landep"],
+      persen_cocok: { cinta:80, karir:85, spiritual:95 }
+    }
+  },
+  {
+    no:7, nama:"Wariga", dewa:"Ludra",
+    sifat:["Kuat","Disiplin","Tegas"],
+    rezeki:"Stabil dari kerja keras", karir:"Manajemen, hukum, militer", asmara:"Protektif dan setia", pantangan:"Hindari keras kepala",
+    karakter: {
+      elemen:"Tanah", ikon:"🌍", zodiak_ref:"Capricorn",
+      deskripsi:"Pemilik Wuku Wariga adalah pejuang tangguh yang tidak mengenal kata menyerah. Kedisiplinan mereka nyaris legendaris — apa yang mereka tetapkan sebagai tujuan, pasti mereka capai. Mereka memimpin dengan contoh, bukan kata-kata, dan menjadi tulang punggung di manapun mereka berada.",
+      kekuatan:["Disiplin tinggi","Tanggung jawab besar","Pemimpin natural","Teguh pendirian","Pekerja keras"],
+      kelemahan:["Keras kepala","Terlalu kaku","Workaholic","Sulit mengekspresikan emosi","Terlalu serius"],
+      hubungan:"Sangat protektif dan setia. Mungkin tidak romantis secara verbal, tapi menunjukkan cinta melalui keamanan dan kestabilan yang mereka berikan.",
+      konflik:"Tegas dan tidak mundur dari pendirian. Bisa terkesan intimidatif saat berkonflik.",
+      motivasi:"Pencapaian dan pengakuan atas kerja keras. Mereka ingin membuktikan bahwa disiplin mengalahkan bakat.",
+      stres:"Saat stres, bekerja lebih keras lagi. Butuh diingatkan untuk istirahat dan menikmati hidup.",
+      wuku_cocok:["Langkir","Dukut","Dungulan","Julungwangi"],
+      persen_cocok: { cinta:75, karir:95, spiritual:70 }
+    }
+  },
+  {
+    no:8, nama:"Warigadean", dewa:"Sangkara",
+    sifat:["Sabar","Ulet","Teliti"],
+    rezeki:"Lambat tapi pasti", karir:"Teknik, pertanian, administrasi", asmara:"Setia dan sabar", pantangan:"Hindari pesimis dan ragu-ragu",
+    karakter: {
+      elemen:"Tanah", ikon:"🌍", zodiak_ref:"Virgo",
+      deskripsi:"Wuku Warigadean melahirkan jiwa yang teliti dan metodis. Mereka adalah perfeksionis yang menghargai proses. Sementara orang lain mengejar hasil cepat, mereka membangun dengan cermat — batu demi batu. Ketelitian mereka adalah aset yang tak ternilai di segala bidang.",
+      kekuatan:["Ketelitian tinggi","Kesabaran luar biasa","Sistematis","Perfeksionis","Analisis detail"],
+      kelemahan:["Terlalu lambat mengambil keputusan","Pesimis","Terlalu detail hingga lupa gambaran besar","Ragu-ragu"],
+      hubungan:"Sabar dan penuh perhatian terhadap detail. Mengingat hal-hal kecil yang berarti bagi pasangan. Butuh waktu lama untuk membuka hati.",
+      konflik:"Menghindari konflik dengan diam. Cenderung menumpuk keluhan hingga meledak di saat tak terduga.",
+      motivasi:"Keteraturan dan kesempurnaan. Mereka menemukan kebahagiaan dalam pekerjaan yang rapi dan teratur.",
+      stres:"Saat stres, menjadi sangat kritis dan mulai menata ulang segala sesuatu. Bersih-bersih atau mengorganisir bisa menjadi terapi.",
+      wuku_cocok:["Kulantir","Sinta","Menail","Kelawu"],
+      persen_cocok: { cinta:80, karir:85, spiritual:75 }
+    }
+  },
+  {
+    no:9, nama:"Julungwangi", dewa:"Indra",
+    sifat:["Berwibawa","Pemberani","Pemimpin"],
+    rezeki:"Baik, banyak peluang", karir:"Kepemimpinan, politik, bisnis", asmara:"Dominan tapi pengayom", pantangan:"Hindari arogan",
+    karakter: {
+      elemen:"Api", ikon:"🔥", zodiak_ref:"Leo",
+      deskripsi:"Wuku Julungwangi menganugerahi pemilikinya karisma seorang raja. Mereka dilahirkan untuk memimpin — bukan karena ambisi, tapi karena orang-orang secara alami mengikuti mereka. Kehadiran mereka mengisi ruangan, dan kata-kata mereka menggerakkan orang.",
+      kekuatan:["Karisma alami","Keberanian mengambil keputusan","Generositas","Kepercayaan diri tinggi","Inspiratif"],
+      kelemahan:["Arogan","Butuh pengakuan","Sulit menerima kritik","Dominan berlebihan"],
+      hubungan:"Pasangan yang protektif dan murah hati. Menginginkan partner yang mengagumi mereka tapi juga berani menentang saat diperlukan.",
+      konflik:"Menghadapi konflik dengan otoritas dan karisma. Bisa sangat intimidatif, tapi juga fair.",
+      motivasi:"Pengakuan, pengaruh, dan warisan. Ingin dikenang sebagai pemimpin yang berarti.",
+      stres:"Saat stres, bisa menjadi otoriter dan menarik diri dari orang-orang. Butuh ruang untuk memimpin dan mengambil kendali.",
+      wuku_cocok:["Tambir","Tolu","Kuningan","Sungsang"],
+      persen_cocok: { cinta:80, karir:95, spiritual:70 }
+    }
+  },
+  {
+    no:10, nama:"Sungsang", dewa:"Brahma",
+    sifat:["Dinamis","Adaptif","Kreatif"],
+    rezeki:"Dari kemampuan adaptasi", karir:"Wirausaha, seni, konsultan", asmara:"Dinamis dan menarik", pantangan:"Hindari tidak konsisten",
+    karakter: {
+      elemen:"Udara", ikon:"💨", zodiak_ref:"Gemini",
+      deskripsi:"Pemilik Wuku Sungsang adalah kupu-kupu sosial yang gesit berpindah dari satu hal ke hal lain. Mereka berbakat dalam banyak bidang dan mampu beradaptasi di situasi apapun. Otak mereka bekerja cepat, mulut mereka lebih cepat lagi. Mereka adalah penghibur alami dan pembawa suasana.",
+      kekuatan:["Multi-talenta","Adaptasi cepat","Komunikator ulung","Kreatif spontan","Energi sosial tinggi"],
+      kelemahan:["Tidak konsisten","Sulit fokus satu hal","Bisa terkesan dangkal","Mudah berubah pikiran","Gossiper"],
+      hubungan:"Menarik dan penuh kejutan. Butuh partner yang tidak membosankan dan bisa mengikuti ritme mereka yang cepat.",
+      konflik:"Menyelesaikan konflik dengan humor atau mengalihkan topik. Kadang menghindari masalah serius.",
+      motivasi:"Variasi dan stimulasi. Kebosanan adalah musuh utama mereka.",
+      stres:"Saat stres, menjadi sangat cerewet atau sebaliknya — totally silent. Butuh percakapan ringan dan aktivitas yang menyenangkan.",
+      wuku_cocok:["Merakih","Julungwangi","Kuningan","Medangsia"],
+      persen_cocok: { cinta:80, karir:80, spiritual:65 }
+    }
+  },
+  {
+    no:11, nama:"Dungulan", dewa:"Kala",
+    sifat:["Kuat","Berkarisma","Ambisius"],
+    rezeki:"Dari perjuangan keras", karir:"Wirausaha, seni, kepemimpinan", asmara:"Setia tapi mudah cemburu", pantangan:"Hindari egois dan temperamental",
+    karakter: {
+      elemen:"Air", ikon:"🌊", zodiak_ref:"Scorpio",
+      deskripsi:"Wuku Dungulan membawa intensitas Sang Kala — dalam, misterius, dan penuh kekuatan tersembunyi. Mereka adalah air tenang yang menghanyutkan. Ambisi mereka berkobar di dalam, tidak selalu terlihat dari luar. Ketika mereka memutuskan sesuatu, tidak ada yang bisa menghalangi.",
+      kekuatan:["Determinasi baja","Intensitas fokus","Intuisi tajam","Karisma gelap","Loyalitas mendalam"],
+      kelemahan:["Cemburu berlebihan","Pendendam","Possessive","Sulit percaya orang baru","Manipulatif saat terancam"],
+      hubungan:"Cinta mereka total dan mendalam — tapi juga posesif. Butuh partner yang setia absolut dan bisa menangani intensitas emosi mereka.",
+      konflik:"Strategis dan sabar menunggu momen yang tepat. Bisa sangat tajam dan menyakitkan saat menyerang.",
+      motivasi:"Kekuatan, kontrol, dan transformasi. Mereka ingin menguasai diri sendiri dan lingkungannya.",
+      stres:"Saat stres, menjadi sangat tertutup dan curiga. Butuh waktu sendiri untuk memproses emosi yang intens.",
+      wuku_cocok:["Wariga","Tolu","Langkir","Watugunung"],
+      persen_cocok: { cinta:85, karir:90, spiritual:80 }
+    }
+  },
+  {
+    no:12, nama:"Kuningan", dewa:"Indra",
+    sifat:["Cerdik","Diplomatis","Fleksibel"],
+    rezeki:"Dari kepandaian bergaul", karir:"Diplomasi, bisnis, humas", asmara:"Menarik dan pandai merayu", pantangan:"Hindari licik dan tidak konsisten",
+    karakter: {
+      elemen:"Udara", ikon:"💨", zodiak_ref:"Libra",
+      deskripsi:"Pemilik Wuku Kuningan adalah diplomat alami yang mampu menyeimbangkan berbagai kepentingan. Mereka memiliki pesona sosial yang tak tertandingi dan kemampuan melihat kedua sisi dari setiap masalah. Keadilan dan harmoni adalah prinsip hidup mereka.",
+      kekuatan:["Diplomasi tinggi","Pesona sosial","Keadilan","Kemampuan negosiasi","Selera estetika tinggi"],
+      kelemahan:["Plin-plan","Menghindari konflik","Terlalu bergantung pada persetujuan orang","Licik saat kepepet"],
+      hubungan:"Partner yang romantis dan penuh perhatian. Sangat mementingkan keharmonisan dan menghindari pertengkaran.",
+      konflik:"Lebih suka bernegosiasi dan mencari jalan tengah. Sangat tidak nyaman dengan konfrontasi langsung.",
+      motivasi:"Harmoni, keindahan, dan hubungan yang baik dengan semua orang.",
+      stres:"Saat stres, menjadi sangat plin-plan dan tidak bisa mengambil keputusan. Butuh orang lain sebagai sounding board.",
+      wuku_cocok:["Sungsang","Julungwangi","Merakih","Krulut"],
+      persen_cocok: { cinta:90, karir:85, spiritual:70 }
+    }
+  },
+  {
+    no:13, nama:"Langkir", dewa:"Kala",
+    sifat:["Tangguh","Strategis","Gigih"],
+    rezeki:"Dari kerja keras dan strategi", karir:"Militer, hukum, wirausaha", asmara:"Setia tapi keras kepala", pantangan:"Hindari emosi dan konflik",
+    karakter: {
+      elemen:"Api", ikon:"🔥", zodiak_ref:"Aries-strategis",
+      deskripsi:"Wuku Langkir memadukan keberanian api dengan kecerdasan strategi. Mereka bukan sekadar pejuang, tapi jenderal yang memikirkan setiap langkah. Ketangguhan mereka sudah teruji — semakin besar tekanan, semakin kuat mereka berdiri.",
+      kekuatan:["Ketangguhan mental","Perencanaan strategis","Gigih luar biasa","Tidak mudah menyerah","Pembaca situasi"],
+      kelemahan:["Keras kepala","Terlalu serius","Sulit rileks","Bisa menjadi agresif saat terdesak"],
+      hubungan:"Setia dan protektif. Mencari partner yang kuat dan mandiri. Tidak tertarik pada orang yang lemah atau terlalu bergantung.",
+      konflik:"Strategis dalam konflik — memikirkan langkah ke depan. Bisa sangat taktis dan kalkulatif.",
+      motivasi:"Kemenangan dan pencapaian. Mereka hidup untuk menaklukkan tantangan.",
+      stres:"Saat stres, menjadi lebih fokus dan determined. Olahraga berat atau aktivitas kompetitif membantu melepas tekanan.",
+      wuku_cocok:["Wariga","Dungulan","Dukut","Bala"],
+      persen_cocok: { cinta:75, karir:95, spiritual:70 }
+    }
+  },
+  {
+    no:14, nama:"Medangsia", dewa:"Brahma",
+    sifat:["Kreatif","Ekspresif","Energik"],
+    rezeki:"Dari kreativitas", karir:"Seni pertunjukan, media, hiburan", asmara:"Penuh gairah dan ekspresif", pantangan:"Hindari tidak stabil dan mudah bosan",
+    karakter: {
+      elemen:"Api", ikon:"🔥", zodiak_ref:"Leo-ekspresif",
+      deskripsi:"Wuku Medangsia melahirkan bintang panggung — orang-orang yang hidup untuk mengekspresikan diri. Energi kreatif mereka memancar seperti matahari, menarik perhatian ke manapun mereka pergi. Mereka tidak hanya ingin dilihat, tapi ingin menggerakkan emosi.",
+      kekuatan:["Ekspresivitas tinggi","Energi kreatif berlimpah","Menghibur","Berani tampil beda","Spontan"],
+      kelemahan:["Drama queen/king","Tidak stabil emosi","Mudah bosan","Butuh perhatian","Impulsif"],
+      hubungan:"Penuh gairah dan ekspresif. Hubungan harus exciting — rutinitas adalah pembunuh cinta bagi mereka.",
+      konflik:"Dramatis dalam berkonflik. Bisa membuat masalah kecil terasa sangat besar.",
+      motivasi:"Ekspresi diri dan pengakuan kreatif. Mereka ingin meninggalkan jejak artistik di dunia.",
+      stres:"Saat stres, menjadi sangat dramatis atau creative outburst. Butuh outlet kreatif — menulis, menari, atau perform.",
+      wuku_cocok:["Ukir","Krulut","Sungsang","Merakih"],
+      persen_cocok: { cinta:85, karir:80, spiritual:65 }
+    }
+  },
+  {
+    no:15, nama:"Pujut", dewa:"Wisnu",
+    sifat:["Tenang","Penyayang","Spiritual"],
+    rezeki:"Berkah dari kejujuran", karir:"Agama, sosial, kesehatan", asmara:"Lembut dan tulus", pantangan:"Hindari pasif dan tidak tegas",
+    karakter: {
+      elemen:"Ether", ikon:"✨", zodiak_ref:"Pisces-spiritual",
+      deskripsi:"Wuku Pujut menghasilkan jiwa-jiwa yang dekat dengan Yang Ilahi. Mereka memiliki koneksi spiritual yang sangat kuat dan ketenangan batin yang membuat orang di sekitarnya merasa damai. Kebijaksanaan mereka datang bukan dari buku, tapi dari kedalaman meditasi dan refleksi.",
+      kekuatan:["Kedamaian batin","Koneksi spiritual tinggi","Empati mendalam","Kebijaksanaan intuitif","Healing presence"],
+      kelemahan:["Terlalu pasif","Tidak tegas","Mudah dimanfaatkan","Menarik diri dari kenyataan","Kadang terlalu idealis"],
+      hubungan:"Lembut, tulus, dan penuh kasih sayang tanpa syarat. Butuh partner yang menghargai sisi spiritual mereka.",
+      konflik:"Menghindari konflik sekuat mungkin. Lebih suka memaafkan daripada membalas.",
+      motivasi:"Kedamaian batin dan pertumbuhan spiritual. Pencapaian duniawi bukan prioritas utama.",
+      stres:"Saat stres, meditasi dan doa menjadi pelarian utama. Butuh keheningan dan koneksi dengan alam.",
+      wuku_cocok:["Sinta","Ugu","Prangbakat","Gumbreg"],
+      persen_cocok: { cinta:85, karir:70, spiritual:100 }
+    }
+  },
+  {
+    no:16, nama:"Pahang", dewa:"Siwa",
+    sifat:["Bijaksana","Karismatik","Adil"],
+    rezeki:"Melimpah dengan kebijaksanaan", karir:"Hukum, pemerintahan, spiritual", asmara:"Dewasa dan bertanggung jawab", pantangan:"Hindari terlalu perfeksionis",
+    karakter: {
+      elemen:"Ether", ikon:"✨", zodiak_ref:"Sagittarius-bijaksana",
+      deskripsi:"Di bawah naungan Siwa sang Pelebur, Wuku Pahang melahirkan pribadi yang mampu mentransformasi keadaan. Mereka adil, berwibawa, dan memiliki pandangan jauh ke depan. Karisma mereka berasal dari kombinasi kebijaksanaan dan ketulusan.",
+      kekuatan:["Keadilan","Visi jangka panjang","Karisma alami","Transformator","Pemimpin spiritual"],
+      kelemahan:["Perfeksionis berlebihan","Standar terlalu tinggi","Sulit puas","Kadang menghakimi"],
+      hubungan:"Partner yang dewasa dan bertanggung jawab. Membangun hubungan dengan fondasi kuat — kepercayaan dan rasa hormat.",
+      konflik:"Menyelesaikan konflik dengan keadilan dan kebijaksanaan. Bisa tegas tapi tetap fair.",
+      motivasi:"Kebenaran, keadilan, dan transformasi positif di lingkungannya.",
+      stres:"Saat stres, melakukan ritual spiritual atau berkontemplasi sendiri. Butuh waktu untuk merenung.",
+      wuku_cocok:["Gumbreg","Watugunung","Prangbakat","Pujut"],
+      persen_cocok: { cinta:80, karir:90, spiritual:95 }
+    }
+  },
+  {
+    no:17, nama:"Krulut", dewa:"Semara",
+    sifat:["Romantis","Lembut","Artistik"],
+    rezeki:"Dari seni dan hubungan sosial", karir:"Seni, fashion, kecantikan", asmara:"Sangat romantis dan peka", pantangan:"Hindari terlalu sensitif dan cengeng",
+    karakter: {
+      elemen:"Air", ikon:"🌊", zodiak_ref:"Libra-romantis",
+      deskripsi:"Di bawah naungan Dewa Semara (Dewa Cinta), Wuku Krulut melahirkan para romantis sejati. Mereka memiliki rasa keindahan yang sangat tinggi dan kemampuan membuat siapapun merasa spesial. Hidup mereka dipenuhi estetika, cinta, dan ekspresi keindahan.",
+      kekuatan:["Romantisme tinggi","Sensitivitas estetika","Pesona sosial","Empati","Taste yang refined"],
+      kelemahan:["Terlalu sensitif","Mudah patah hati","Bergantung pada validasi","Menghindari hal-hal kasar atau sulit"],
+      hubungan:"Pasangan paling romantis dari seluruh wuku. Memberikan perhatian penuh dan mengingat setiap detail tentang orang yang dicintai.",
+      konflik:"Sangat terpukul oleh konflik. Lebih suka mengalah daripada merusak keharmonisan.",
+      motivasi:"Cinta, keindahan, dan koneksi emosional yang mendalam.",
+      stres:"Saat stres, mencari pelukan dan kata-kata yang menenangkan. Butuh lingkungan yang indah dan damai.",
+      wuku_cocok:["Ukir","Medangsia","Kuningan","Merakih"],
+      persen_cocok: { cinta:95, karir:75, spiritual:80 }
+    }
+  },
+  {
+    no:18, nama:"Merakih", dewa:"Kumara",
+    sifat:["Riang","Optimis","Sosial"],
+    rezeki:"Dari pergaulan luas", karir:"Hiburan, pariwisata, pemasaran", asmara:"Menyenangkan dan penuh cinta", pantangan:"Hindari tidak serius dan boros",
+    karakter: {
+      elemen:"Udara", ikon:"💨", zodiak_ref:"Gemini-riang",
+      deskripsi:"Wuku Merakih membawa energi Kumara si pemuda abadi — riang, optimis, dan penuh kegembiraan hidup. Mereka adalah teman yang selalu mengangkat suasana dan mampu menemukan sisi positif dari situasi terburuk sekalipun. Hidup terlalu pendek untuk bersedih — itulah moto mereka.",
+      kekuatan:["Optimisme menular","Kemampuan sosial tinggi","Humor","Energi positif","Adaptasi cepat"],
+      kelemahan:["Tidak serius","Boros","Menghindari tanggung jawab berat","Sulit berkomitmen","Dangkal"],
+      hubungan:"Menyenangkan dan penuh kegembiraan. Tapi perlu belajar komitmen dan menghadapi sisi serius hubungan.",
+      konflik:"Menyelesaikan dengan humor dan pengalihan. Sangat jarang mau serius tentang masalah.",
+      motivasi:"Kegembiraan, pertemanan, dan pengalaman baru. FOMO adalah kekuatan penggerak mereka.",
+      stres:"Saat stres, mencari teman untuk curhat sambil tertawa. Butuh hiburan dan suasana ringan.",
+      wuku_cocok:["Sungsang","Medangsia","Krulut","Kuningan"],
+      persen_cocok: { cinta:80, karir:75, spiritual:60 }
+    }
+  },
+  {
+    no:19, nama:"Tambir", dewa:"Indra",
+    sifat:["Berwibawa","Tegas","Percaya diri"],
+    rezeki:"Dari kepemimpinan", karir:"Politik, manajemen, militer", asmara:"Dominan dan protektif", pantangan:"Hindari otoriter dan tidak mau mendengar",
+    karakter: {
+      elemen:"Api", ikon:"🔥", zodiak_ref:"Leo-otoritatif",
+      deskripsi:"Wuku Tambir melahirkan pribadi yang tegas dan berwibawa seperti raja Indra. Kepercayaan diri mereka mampu menguatkan orang lain, namun juga bisa mengintimidasi. Mereka adalah pelindung yang kuat — tapi perlu belajar bahwa melindungi tidak berarti mengontrol.",
+      kekuatan:["Ketegasan","Kepercayaan diri","Protektif","Kemampuan memimpin","Aura otoritas"],
+      kelemahan:["Otoriter","Tidak mau mendengar","Terlalu dominan","Intimidatif","Sulit mengakui kesalahan"],
+      hubungan:"Sangat protektif dan rela berkorban untuk orang yang dicintai. Tapi butuh belajar memberi ruang dan kepercayaan.",
+      konflik:"Langsung dan tegas. Tidak suka kompromi jika meyakini sesuatu. Bisa sangat intimidatif.",
+      motivasi:"Kekuasaan, kontrol, dan perlindungan terhadap orang-orang terdekat.",
+      stres:"Saat stres, menjadi lebih otoriter dan controlling. Butuh diingatkan untuk melepas kendali.",
+      wuku_cocok:["Julungwangi","Tolu","Bala","Dungulan"],
+      persen_cocok: { cinta:75, karir:90, spiritual:65 }
+    }
+  },
+  {
+    no:20, nama:"Medangkungan", dewa:"Wisnu",
+    sifat:["Stabil","Tekun","Dapat dipercaya"],
+    rezeki:"Stabil dan berkelanjutan", karir:"Keuangan, properti, pertanian", asmara:"Setia dan bertanggung jawab", pantangan:"Hindari monoton dan kurang kreasi",
+    karakter: {
+      elemen:"Tanah", ikon:"🌍", zodiak_ref:"Taurus-stabil",
+      deskripsi:"Wuku Medangkungan menghasilkan pribadi yang kokoh dan dapat diandalkan seperti gunung. Di bawah perlindungan Wisnu sang pemelihara, mereka menjadi pilar stabilitas bagi keluarga dan komunitasnya. Ketekunan mereka mengalahkan segala rintangan — perlahan tapi pasti.",
+      kekuatan:["Sangat dapat dipercaya","Ketekunan","Stabilitas emosi","Loyalitas","Kesabaran"],
+      kelemahan:["Monoton","Kurang kreatif","Terlalu nyaman di zona aman","Lambat beradaptasi","Membosankan"],
+      hubungan:"Partner yang paling dapat diandalkan. Cinta mereka konsisten — tidak flashy tapi selalu ada.",
+      konflik:"Sangat sabar dan jarang berkonflik. Tapi jika dipaksa, berdiri teguh seperti gunung.",
+      motivasi:"Stabilitas dan keamanan jangka panjang untuk keluarga.",
+      stres:"Saat stres, kembali ke rutinitas yang familiar. Butuh kenyamanan dan hal-hal yang sudah pasti.",
+      wuku_cocok:["Kulantir","Kelawu","Warigadean","Menail"],
+      persen_cocok: { cinta:85, karir:85, spiritual:75 }
+    }
+  },
+  {
+    no:21, nama:"Matal", dewa:"Brahma",
+    sifat:["Aktif","Berani","Inovatif"],
+    rezeki:"Dari keberanian berinovasi", karir:"Teknologi, wirausaha, riset", asmara:"Penuh kejutan dan menarik", pantangan:"Hindari ceroboh dan tidak sabar",
+    karakter: {
+      elemen:"Api", ikon:"🔥", zodiak_ref:"Aries-inovatif",
+      deskripsi:"Wuku Matal melahirkan para inovator dan disruptor. Mereka tidak pernah puas dengan status quo dan selalu mencari cara baru yang lebih baik. Energi api Brahma mendorong mereka untuk membakar batasan dan membangun sesuatu yang belum pernah ada sebelumnya.",
+      kekuatan:["Inovatif","Berani mengambil risiko","Energi tinggi","Pemikiran out-of-the-box","Adaptasi teknologi cepat"],
+      kelemahan:["Ceroboh","Tidak sabar","Mengabaikan detail","Terlalu banyak proyek","Sulit menyelesaikan"],
+      hubungan:"Penuh kejutan dan tidak pernah membosankan. Tapi partner harus siap dengan perubahan rencana yang mendadak.",
+      konflik:"Konfrontatif dan langsung. Lebih suka menyelesaikan cepat daripada berlarut-larut.",
+      motivasi:"Inovasi dan penciptaan hal baru. Mereka terobsesi dengan kemajuan.",
+      stres:"Saat stres, memulai proyek baru sebagai pelarian. Butuh tantangan baru untuk mengalihkan pikiran.",
+      wuku_cocok:["Landep","Tolu","Bala","Sungsang"],
+      persen_cocok: { cinta:75, karir:90, spiritual:60 }
+    }
+  },
+  {
+    no:22, nama:"Uye", dewa:"Mahadewa",
+    sifat:["Cerdas","Analitis","Mandiri"],
+    rezeki:"Dari keahlian khusus", karir:"Sains, teknologi, penelitian", asmara:"Intelektual dan mandiri", pantangan:"Hindari terlalu rasional dan dingin",
+    karakter: {
+      elemen:"Udara", ikon:"💨", zodiak_ref:"Aquarius-mandiri",
+      deskripsi:"Wuku Uye melahirkan para pemikir independen yang tidak terikat konvensi. Mereka adalah ilmuwan, filsuf, dan futuris yang melihat dunia melalui lensa unik mereka sendiri. Kemandirian mereka bukanlah keangkuhan, melainkan kebutuhan untuk berpikir jernih tanpa pengaruh.",
+      kekuatan:["Pemikiran independen","Keahlian spesialis","Analisis mendalam","Inovasi diam-diam","Kemandirian total"],
+      kelemahan:["Terlalu dingin","Sulit berempati","Terisolasi","Terkesan aneh atau eksentrik","Tidak peka sosial"],
+      hubungan:"Butuh banyak ruang personal. Menghargai kebebasan di atas segalanya. Partner harus mandiri juga.",
+      konflik:"Menghadapi konflik dengan logika dingin. Bisa membuat lawan bicara merasa tidak dihargai secara emosional.",
+      motivasi:"Pengetahuan dan pemahaman mendalam tentang cara kerja segala sesuatu.",
+      stres:"Saat stres, mengisolasi diri dan mendalami hobi atau riset. Butuh waktu sendiri mutlak.",
+      wuku_cocok:["Landep","Gumbreg","Matal","Warigadean"],
+      persen_cocok: { cinta:65, karir:95, spiritual:80 }
+    }
+  },
+  {
+    no:23, nama:"Menail", dewa:"Sangkara",
+    sifat:["Sabar","Tabah","Ulet"],
+    rezeki:"Lambat tapi pasti bertumbuh", karir:"Pertanian, kesehatan, teknik", asmara:"Sabar dan pengertian", pantangan:"Hindari terlalu pasif",
+    karakter: {
+      elemen:"Tanah", ikon:"🌍", zodiak_ref:"Virgo-tabah",
+      deskripsi:"Wuku Menail menghasilkan pribadi yang tabah bagai bambu — lentur menghadapi badai tapi tidak patah. Kesabaran mereka seolah tidak ada batasnya. Mereka adalah pekerja sunyi yang tidak pernah mengeluh, membangun masa depan satu langkah demi satu langkah.",
+      kekuatan:["Kesabaran tanpa batas","Ketabahan","Keuletan","Rendah hati","Pekerja keras tanpa pamrih"],
+      kelemahan:["Terlalu pasif","Jarang memperjuangkan hak sendiri","Menerima terlalu banyak beban","Kurang ambisi"],
+      hubungan:"Sabar dan pengertian tanpa batas. Tapi perlu belajar bahwa memperjuangkan keinginan sendiri bukan berarti egois.",
+      konflik:"Menghindari konflik dengan diam dan mengalah. Perlu belajar assertiveness.",
+      motivasi:"Tanggung jawab dan perasaan berguna bagi orang lain.",
+      stres:"Saat stres, diam dan melanjutkan kerja. Butuh seseorang yang notice dan menanyakan keadaan mereka.",
+      wuku_cocok:["Warigadean","Medangkungan","Kulantir","Kelawu"],
+      persen_cocok: { cinta:80, karir:80, spiritual:80 }
+    }
+  },
+  {
+    no:24, nama:"Prangbakat", dewa:"Siwa",
+    sifat:["Spiritual","Intuitif","Bijak"],
+    rezeki:"Dari keberkahan spiritual", karir:"Agama, konseling, pengobatan", asmara:"Tulus dan penuh pengertian", pantangan:"Hindari terlalu idealis",
+    karakter: {
+      elemen:"Ether", ikon:"✨", zodiak_ref:"Pisces-mistik",
+      deskripsi:"Wuku Prangbakat melahirkan para mistikus dan penyembuh jiwa. Di bawah energi transformatif Siwa, mereka memiliki kemampuan melihat melampaui yang tampak. Intuisi mereka nyaris supranatural, dan kehadiran mereka membawa ketenangan mendalam bagi siapapun di sekitarnya.",
+      kekuatan:["Intuisi supranatural","Kebijaksanaan spiritual","Kemampuan menyembuhkan","Kedalaman batin","Visi mistik"],
+      kelemahan:["Terlalu idealis","Tidak membumi","Sulit menghadapi realitas duniawi","Terkesan aneh bagi orang awam"],
+      hubungan:"Mencari koneksi jiwa, bukan sekadar fisik. Hubungan mereka bersifat sangat spiritual dan transformatif.",
+      konflik:"Melihat konflik dari perspektif spiritual yang lebih tinggi. Kadang terkesan tidak peduli pada masalah duniawi.",
+      motivasi:"Pencerahan spiritual dan membantu orang lain menemukan jalan mereka.",
+      stres:"Saat stres, retreating ke dunia spiritual — meditasi intens, puasa, atau pergi ke tempat suci.",
+      wuku_cocok:["Pujut","Pahang","Gumbreg","Watugunung"],
+      persen_cocok: { cinta:80, karir:75, spiritual:100 }
+    }
+  },
+  {
+    no:25, nama:"Bala", dewa:"Brahma",
+    sifat:["Kuat","Pemberani","Energik"],
+    rezeki:"Dari kerja keras dan keberanian", karir:"Olahraga, militer, keamanan", asmara:"Penuh semangat dan protektif", pantangan:"Hindari agresif dan impulsif",
+    karakter: {
+      elemen:"Api", ikon:"🔥", zodiak_ref:"Aries-kuat",
+      deskripsi:"Wuku Bala membawa kekuatan murni Brahma sang Pencipta. Mereka adalah pejuang fisik yang energinya luar biasa. Tubuh dan jiwa mereka seperti mesin perang — kuat, tahan banting, dan selalu siap bertindak. Mereka melindungi orang-orang yang dicintai dengan segenap kekuatan.",
+      kekuatan:["Kekuatan fisik","Keberanian","Energi luar biasa","Protektif","Daya tahan tinggi"],
+      kelemahan:["Agresif","Impulsif","Kurang sabar","Menyelesaikan semua dengan kekuatan","Sulit bernegosiasi"],
+      hubungan:"Protektif dan penuh semangat. Menunjukkan cinta melalui tindakan perlindungan dan keberanian.",
+      konflik:"Frontal dan kuat. Bisa mengintimidasi, tapi niat mereka biasanya murni.",
+      motivasi:"Kekuatan, keamanan, dan perlindungan terhadap yang lemah.",
+      stres:"Saat stres, butuh aktivitas fisik intens — olahraga berat, bekerja di luar, atau tantangan fisik.",
+      wuku_cocok:["Tolu","Langkir","Tambir","Matal"],
+      persen_cocok: { cinta:75, karir:85, spiritual:60 }
+    }
+  },
+  {
+    no:26, nama:"Ugu", dewa:"Wisnu",
+    sifat:["Tenang","Penyabar","Murah hati"],
+    rezeki:"Dari kebaikan hati", karir:"Sosial, pendidikan, agama", asmara:"Lembut dan penuh kasih", pantangan:"Hindari terlalu mudah mengalah",
+    karakter: {
+      elemen:"Air", ikon:"🌊", zodiak_ref:"Cancer",
+      deskripsi:"Wuku Ugu melahirkan jiwa pengasuh alami yang memberikan kehangatan seperti ibu bumi. Di bawah perlindungan Wisnu, mereka menjadi pelindung dan pemelihara bagi semua orang di sekitarnya. Rumah dan keluarga adalah pusat kehidupan mereka.",
+      kekuatan:["Kemurahan hati","Perhatian mendalam","Kasih sayang tanpa syarat","Nurturing","Menciptakan rasa aman"],
+      kelemahan:["Terlalu mengalah","Memendam emosi","Terlalu protektif","Sulit melepas","Terlalu berkorban"],
+      hubungan:"Partner yang paling penyayang dan memperhatikan. Menciptakan rumah tangga yang hangat dan penuh kasih.",
+      konflik:"Menghindari konflik dan lebih suka mengalah. Memendam perasaan sampai meledak sebagai tangisan.",
+      motivasi:"Kebahagiaan dan kesejahteraan orang-orang yang dicintai.",
+      stres:"Saat stres, memasak, membersihkan rumah, atau merawat orang lain. Butuh pelukan dan kata-kata sayang.",
+      wuku_cocok:["Sinta","Pujut","Kelawu","Kulantir"],
+      persen_cocok: { cinta:90, karir:75, spiritual:85 }
+    }
+  },
+  {
+    no:27, nama:"Wayang", dewa:"Kala",
+    sifat:["Tangguh","Misterius","Intuitif"],
+    rezeki:"Dari kerja keras dan intuisi", karir:"Seni, spiritualitas, investigasi", asmara:"Menarik dan misterius", pantangan:"Hindari tertutup dan curiga berlebihan",
+    karakter: {
+      elemen:"Ether", ikon:"✨", zodiak_ref:"Scorpio-mistik",
+      deskripsi:"Wuku Wayang adalah yang paling misterius dari seluruh 30 wuku. Seperti wayang yang memainkan cerita antara terang dan gelap, mereka memahami dualitas kehidupan. Mereka mampu melihat apa yang tersembunyi dan memiliki koneksi kuat dengan dunia tak kasat mata.",
+      kekuatan:["Intuisi luar biasa","Pemahaman dualitas hidup","Misterius dan menarik","Kedalaman batin","Kemampuan investigasi"],
+      kelemahan:["Terlalu tertutup","Paranoid","Curiga berlebihan","Sulit dipahami","Bisa manipulatif"],
+      hubungan:"Misterius dan intens. Orang tertarik pada aura mereka yang enigmatic. Tapi perlu belajar terbuka kepada pasangan.",
+      konflik:"Strategis dan tak terduga. Bisa membaca lawan jauh sebelum mereka menyadarinya.",
+      motivasi:"Memahami rahasia kehidupan dan dunia yang tak terlihat.",
+      stres:"Saat stres, menarik diri sepenuhnya. Butuh kesendirian dan koneksi spiritual untuk pulih.",
+      wuku_cocok:["Dungulan","Prangbakat","Watugunung","Pahang"],
+      persen_cocok: { cinta:75, karir:80, spiritual:95 }
+    }
+  },
+  {
+    no:28, nama:"Kelawu", dewa:"Sri",
+    sifat:["Rajin","Hemat","Teliti"],
+    rezeki:"Berlimpah dari ketekunan", karir:"Keuangan, pertanian, administrasi", asmara:"Setia dan bertanggung jawab", pantangan:"Hindari terlalu perhitungan",
+    karakter: {
+      elemen:"Tanah", ikon:"🌍", zodiak_ref:"Capricorn-praktis",
+      deskripsi:"Wuku Kelawu di bawah dewi Sri (Dewi Kemakmuran) melahirkan pribadi yang rajin dan pandai mengelola sumber daya. Mereka memiliki hubungan khusus dengan kemakmuran — uang seolah datang pada mereka yang tekun dan hemat. Pragmatisme mereka adalah kekuatan utama.",
+      kekuatan:["Manajemen keuangan excellent","Rajin","Teliti","Pragmatis","Kemampuan menabung"],
+      kelemahan:["Terlalu perhitungan","Pelit","Materialistis","Kurang spontan","Terlalu fokus pada uang"],
+      hubungan:"Setia dan menyediakan secara material. Tapi perlu belajar bahwa cinta butuh lebih dari kestabilan finansial.",
+      konflik:"Menggunakan logika dan fakta. Bisa terkesan dingin dan kalkulatif.",
+      motivasi:"Kemakmuran, keamanan finansial, dan akumulasi kekayaan.",
+      stres:"Saat stres, mengecek keuangan dan membuat rencana anggaran. Merasa tenang saat angka-angka balance.",
+      wuku_cocok:["Kulantir","Medangkungan","Warigadean","Menail"],
+      persen_cocok: { cinta:75, karir:90, spiritual:65 }
+    }
+  },
+  {
+    no:29, nama:"Dukut", dewa:"Rudra",
+    sifat:["Gigih","Tangguh","Tekad kuat"],
+    rezeki:"Dari perjuangan panjang", karir:"Hukum, bisnis, keamanan", asmara:"Setia dan kuat", pantangan:"Hindari keras kepala berlebihan",
+    karakter: {
+      elemen:"Api", ikon:"🔥", zodiak_ref:"Capricorn-tangguh",
+      deskripsi:"Wuku Dukut di bawah Rudra sang penghancur hambatan menghasilkan pribadi yang tidak pernah patah. Tekad mereka bagai besi yang ditempa — semakin dipukul, semakin kuat. Mereka adalah survivor sejati yang bangkit dari setiap kejatuhan dengan lebih tangguh.",
+      kekuatan:["Tekad baja","Ketangguhan","Gigih luar biasa","Tidak menyerah","Bangkit dari kegagalan"],
+      kelemahan:["Keras kepala ekstrem","Sulit kompromi","Terlalu serius","Menyimpan dendam","Sulit memaafkan"],
+      hubungan:"Setia dan kuat, tapi butuh belajar fleksibilitas. Partner harus siap dengan ketegasan mereka.",
+      konflik:"Tidak mundur sedikitpun. Bisa menjadi perang yang berkepanjangan jika tidak ada yang mengalah.",
+      motivasi:"Membuktikan bahwa mereka tidak bisa dijatuhkan. Kegagalan hanyalah batu loncatan.",
+      stres:"Saat stres, menjadi lebih keras dan tertutup. Butuh aktivitas yang menuntut ketekunan — hiking, martial arts.",
+      wuku_cocok:["Langkir","Wariga","Bala","Dungulan"],
+      persen_cocok: { cinta:75, karir:90, spiritual:70 }
+    }
+  },
+  {
+    no:30, nama:"Watugunung", dewa:"Siwa",
+    sifat:["Karismatik","Pemimpin","Spiritual"],
+    rezeki:"Melimpah dengan keberkahan", karir:"Kepemimpinan spiritual, politik", asmara:"Kuat dan berwibawa", pantangan:"Hindari otoriter",
+    karakter: {
+      elemen:"Ether", ikon:"✨", zodiak_ref:"Sagittarius-pemimpin",
+      deskripsi:"Wuku Watugunung — wuku terakhir dan yang paling agung — melahirkan pemimpin spiritual sejati. Mereka mewarisi kisah Watugunung yang tragis namun transformatif, mengajarkan bahwa kebijaksanaan tertinggi datang dari pengalaman dan penderitaan. Mereka memimpin bukan dengan kekuasaan, tapi dengan pencerahan.",
+      kekuatan:["Karisma spiritual","Kebijaksanaan mendalam","Kemampuan memimpin","Transformasi diri","Visi besar"],
+      kelemahan:["Otoriter spiritual","Merasa paling benar","Sulit menerima otoritas orang lain","Drama hidup yang berlebihan"],
+      hubungan:"Hubungan yang transformatif dan mendalam. Bersama mereka, pasangan akan mengalami pertumbuhan spiritual yang besar.",
+      konflik:"Menghadapi konflik dengan kewibawaan dan otoritas moral. Kadang terkesan menghakimi.",
+      motivasi:"Pencerahan, warisan spiritual, dan transformasi massal.",
+      stres:"Saat stres, pergi ke tempat suci atau melakukan ritual pembersihan. Butuh koneksi ulang dengan tujuan hidup.",
+      wuku_cocok:["Pahang","Gumbreg","Prangbakat","Wayang"],
+      persen_cocok: { cinta:80, karir:85, spiritual:100 }
+    }
+  }
 ];
 
 const SAPTAWARA = [
@@ -894,17 +1509,97 @@ const HARI_NAMA = ['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'];
 const BULAN_NAMA = ['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sep','Okt','Nov','Des'];
 const BULAN_PANJANG = ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
 
-// ===== OTONAN FUNCTIONS (NEW) =====
+// ===== RENDER KARAKTER SECTION (NEW) =====
+function renderKarakter(wuku) {
+  const k = wuku.karakter;
+  if (!k) return;
+  
+  const elemenClass = {
+    'Api':'elemen-api','Tanah':'elemen-tanah','Udara':'elemen-udara','Air':'elemen-air','Ether':'elemen-ether'
+  }[k.elemen] || 'elemen-ether';
+  
+  const meterColor = (persen) => {
+    if (persen >= 90) return '#81c784';
+    if (persen >= 75) return '#e8b84b';
+    if (persen >= 60) return '#ffcc80';
+    return '#ef9a9a';
+  };
 
-/**
- * Hitung otonan berikutnya.
- * Otonan = hari yang tepat kelipatan 210 hari dari tanggal lahir.
- * Setiap otonan jatuh pada saptawara, pancawara, dan wuku yang SAMA persis dengan hari lahir.
- * 
- * @param {Date} tglLahir - tanggal lahir
- * @param {number} jumlah - berapa otonan ke depan yang mau dihitung
- * @returns {Array} list of { tanggal: Date, ke: number, sisaHari: number }
- */
+  const kekuatanHtml = k.kekuatan.map(s => `<span class="karakter-tag tag-kekuatan">${s}</span>`).join('');
+  const kelemahanHtml = k.kelemahan.map(s => `<span class="karakter-tag tag-kelemahan">${s}</span>`).join('');
+
+  const cocokListHtml = k.wuku_cocok.map(w => `<span class="karakter-tag tag-kekuatan">${w}</span>`).join('');
+
+  const html = `
+    <div class="karakter-header">
+      <span class="karakter-elemen-badge ${elemenClass}">${k.ikon} Elemen ${k.elemen}</span>
+    </div>
+
+    <div class="karakter-desc">${k.deskripsi}</div>
+
+    <div class="karakter-grid">
+      <div class="karakter-box">
+        <span class="karakter-box-title">💪 Kekuatan</span>
+        ${kekuatanHtml}
+      </div>
+      <div class="karakter-box">
+        <span class="karakter-box-title">⚡ Kelemahan</span>
+        ${kelemahanHtml}
+      </div>
+    </div>
+
+    <div class="karakter-detail-row">
+      <span class="karakter-detail-icon">💕</span>
+      <span class="karakter-detail-key">Hubungan</span>
+      <span class="karakter-detail-val">${k.hubungan}</span>
+    </div>
+    <div class="karakter-detail-row">
+      <span class="karakter-detail-icon">⚔️</span>
+      <span class="karakter-detail-key">Saat Konflik</span>
+      <span class="karakter-detail-val">${k.konflik}</span>
+    </div>
+    <div class="karakter-detail-row">
+      <span class="karakter-detail-icon">🎯</span>
+      <span class="karakter-detail-key">Motivasi</span>
+      <span class="karakter-detail-val">${k.motivasi}</span>
+    </div>
+    <div class="karakter-detail-row">
+      <span class="karakter-detail-icon">😰</span>
+      <span class="karakter-detail-key">Saat Stres</span>
+      <span class="karakter-detail-val">${k.stres}</span>
+    </div>
+
+    <div style="margin-top:14px;">
+      <span class="karakter-box-title" style="display:block; margin-bottom:8px;">📊 Potensi Kecocokan</span>
+      
+      <div style="display:flex; align-items:center; gap:8px; margin-bottom:6px;">
+        <span style="font-size:0.82rem; color:var(--gold); min-width:65px;">❤️ Cinta</span>
+        <div class="meter-bar"><div class="meter-fill" style="width:${k.persen_cocok.cinta}%; background:${meterColor(k.persen_cocok.cinta)};"></div></div>
+        <span class="meter-label">${k.persen_cocok.cinta}%</span>
+      </div>
+      <div style="display:flex; align-items:center; gap:8px; margin-bottom:6px;">
+        <span style="font-size:0.82rem; color:var(--gold); min-width:65px;">💼 Karir</span>
+        <div class="meter-bar"><div class="meter-fill" style="width:${k.persen_cocok.karir}%; background:${meterColor(k.persen_cocok.karir)};"></div></div>
+        <span class="meter-label">${k.persen_cocok.karir}%</span>
+      </div>
+      <div style="display:flex; align-items:center; gap:8px; margin-bottom:6px;">
+        <span style="font-size:0.82rem; color:var(--gold); min-width:65px;">🙏 Spiritual</span>
+        <div class="meter-bar"><div class="meter-fill" style="width:${k.persen_cocok.spiritual}%; background:${meterColor(k.persen_cocok.spiritual)};"></div></div>
+        <span class="meter-label">${k.persen_cocok.spiritual}%</span>
+      </div>
+    </div>
+
+    <div class="karakter-tip-box">
+      <strong>🔗 Wuku yang Cocok:</strong> ${cocokListHtml}
+      <div style="margin-top:8px; font-size:0.82rem; opacity:0.7;">Kecocokan berdasarkan keseimbangan elemen dan sifat yang saling melengkapi.</div>
+    </div>
+  `;
+
+  document.getElementById('karakter-content').innerHTML = html;
+  document.getElementById('karakter-section').style.display = 'block';
+}
+
+// ===== OTONAN FUNCTIONS =====
 function hitungOtonanMendatang(tglLahir, jumlah) {
   const today = new Date();
   today.setHours(0,0,0,0);
@@ -912,21 +1607,17 @@ function hitungOtonanMendatang(tglLahir, jumlah) {
   const lahir = new Date(tglLahir);
   lahir.setHours(0,0,0,0);
   
-  // Hitung selisih hari dari lahir ke hari ini
   const selisihHari = Math.floor((today - lahir) / 86400000);
   
-  // Jika tanggal lahir di masa depan, otonan pertama = 210 hari setelah lahir
   let siklusKe;
   if (selisihHari <= 0) {
-    siklusKe = 1; // belum pernah otonan, berikutnya = siklus ke-1
+    siklusKe = 1;
   } else {
-    // Siklus terakhir yang sudah lewat
     const siklusLewat = Math.floor(selisihHari / 210);
-    // Cek apakah hari ini tepat otonan
     if (selisihHari % 210 === 0) {
-      siklusKe = siklusLewat; // hari ini sendiri adalah otonan
+      siklusKe = siklusLewat;
     } else {
-      siklusKe = siklusLewat + 1; // otonan berikutnya
+      siklusKe = siklusLewat + 1;
     }
   }
   
@@ -980,7 +1671,6 @@ function renderOtonan(tglLahirStr) {
   const hariRayaNext = getHariRaya(next.tanggal);
   const neptuNext = saptaNext.urip + pancaNext.urip;
   
-  // Highlight jika otonan hari ini atau besok
   let urgentBanner = '';
   if (next.sisaHari === 0) {
     urgentBanner = `<div style="background:rgba(76,175,80,0.25); border:1px solid rgba(76,175,80,0.5); border-radius:8px; padding:8px 12px; margin-bottom:10px; color:#a5d6a7; font-size:0.9rem; text-align:center;">🎉 <strong>Selamat Otonan!</strong> Hari ini adalah otonan Anda yang ke-${next.ke}!</div>`;
@@ -1006,7 +1696,6 @@ function renderOtonan(tglLahirStr) {
     ${hariRayaHtml}
   `;
   
-  // Render list 5 otonan mendatang (hidden by default)
   let listHtml = '';
   otonanList.forEach((ot, idx) => {
     const sel = getSelisih(ot.tanggal);
@@ -1072,6 +1761,9 @@ function hitung() {
 
   const sifatEl = document.getElementById('res-sifat');
   sifatEl.innerHTML = wuku.sifat.map(s => `<li>${s}</li>`).join('');
+
+  // Render Karakter section (NEW)
+  renderKarakter(wuku);
 
   document.getElementById('res-dewa').textContent =
     `Dewa pelindung wuku ${wuku.nama} adalah ${wuku.dewa}. Mereka yang lahir di wuku ini berada di bawah naungan kekuatan ${wuku.dewa} yang memberi perlindungan dan bimbingan spiritual sepanjang hidup.`;
