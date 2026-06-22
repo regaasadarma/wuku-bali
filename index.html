@@ -1,10 +1,18 @@
+Tentu! Pengelolaan *repository* GitHub dan *deployment* ke Vercel Anda sudah sangat rapi.
+
+Berikut adalah keseluruhan kode lengkap yang sudah saya modifikasi. Saya menggabungkan CSS, HTML, dan JavaScript sesuai dengan struktur folder `Gambar` dan ekstensi `.png` milik Anda.
+
+Sebagai tambahan, saya juga menyisipkan sedikit logika validasi pada JavaScript (`imgElement.onerror`). Fungsinya agar aplikasi web Anda tetap terlihat profesional dan tidak menampilkan ikon gambar *error* (rusak) ketika pengguna mendapatkan wuku yang gambarnya belum sempat Anda unggah ke *repository*.
+
+Silakan salin seluruh kode di bawah ini dan timpa file `index.html` Anda:
+
+```html
 <!DOCTYPE html>
 <html lang="id">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<!-- ====== SEO PRIMARY ====== -->
 <title>Kalender Wuku Bali — Hitung Wuku, Wara & Prediksi Harian Berdasarkan Tanggal Lahir</title>
 <meta name="description" content="Hitung wuku Bali, saptawara, pancawara dan prediksi harian berdasarkan tanggal lahir Anda. Temukan hari baik, karakter, ramalan rezeki, karir, dan asmara sesuai kalender Pawukon Bali.">
 <meta name="keywords" content="wuku bali, kalender bali, pawukon, saptawara, pancawara, hari baik bali, wuku lahir, wariga bali, kalender hindu bali, neptu bali, galungan, kuningan, kajeng kliwon, tumpek, ramalan bali, hari baik pernikahan bali, dewasa ayu, otonan bali">
@@ -13,7 +21,6 @@
 <meta name="language" content="Indonesian">
 <link rel="canonical" href="https://wuku-bali.vercel.app/">
 
-<!-- ====== OPEN GRAPH (WhatsApp, Facebook) ====== -->
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://wuku-bali.vercel.app/">
 <meta property="og:title" content="Kalender Wuku Bali — Hitung Wuku & Prediksi Harian">
@@ -22,14 +29,12 @@
 <meta property="og:locale" content="id_ID">
 <meta property="og:site_name" content="Wuku Bali">
 
-<!-- ====== TWITTER CARD ====== -->
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:url" content="https://wuku-bali.vercel.app/">
 <meta name="twitter:title" content="Kalender Wuku Bali — Hitung Wuku & Prediksi Harian">
 <meta name="twitter:description" content="Cari tahu wuku, saptawara, pancawara dan ramalan harian Anda berdasarkan tanggal lahir. Gratis dan akurat.">
 <meta name="twitter:image" content="https://wuku-bali.vercel.app/og-image.png">
 
-<!-- ====== SCHEMA MARKUP (Google Rich Results) ====== -->
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -54,7 +59,6 @@
 }
 </script>
 
-<!-- ====== FAVICON ====== -->
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌺</text></svg>">
 
 <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Crimson+Pro:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet">
@@ -266,6 +270,29 @@
     color: var(--gold);
     opacity: 0.7;
     margin-top: 4px;
+  }
+
+  /* ===== WUKU IMAGE STYLE ===== */
+  .wuku-img-container {
+    width: 100%;
+    max-width: 260px;
+    margin: 16px auto;
+    border-radius: 12px;
+    padding: 6px;
+    background: rgba(201,147,58,0.15);
+    border: 1px solid rgba(201,147,58,0.3);
+    box-shadow: 0 4px 16px rgba(0,0,0,0.4);
+    display: none; /* Disembunyikan secara default */
+  }
+
+  .wuku-img-container img {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1 / 1; 
+    object-fit: cover;
+    border-radius: 8px;
+    display: block;
+    border: 1px solid rgba(201,147,58,0.5);
   }
 
   .info-grid {
@@ -728,7 +755,6 @@
 </head>
 <body>
 
-<!-- Top Ornament SVG -->
 <div class="ornament-top">
   <svg width="320" height="60" viewBox="0 0 320 60" fill="none" xmlns="http://www.w3.org/2000/svg">
     <circle cx="160" cy="30" r="12" fill="none" stroke="#c9933a" stroke-width="1"/>
@@ -790,7 +816,6 @@
     <button onclick="hitung()">✦ Hitung Wuku & Wara ✦</button>
   </div>
 
-  <!-- Result -->
   <div class="card" id="result">
     <svg class="card-corner tl" viewBox="0 0 40 40" fill="none">
       <path d="M2 38 Q2 2 38 2" stroke="#c9933a" stroke-width="1.5" fill="none"/>
@@ -812,6 +837,10 @@
     <div class="result-header">
       <span class="wuku-name" id="res-wuku"></span>
       <div class="wuku-number" id="res-wuku-no"></div>
+    </div>
+
+    <div class="wuku-img-container" id="wuku-img-wrapper">
+      <img id="res-wuku-img" src="" alt="Ilustrasi Wuku" loading="lazy">
     </div>
 
     <div class="divider">
@@ -846,12 +875,10 @@
     <div class="section-title">Sifat & Karakter</div>
     <ul class="sifat-list" id="res-sifat"></ul>
 
-    <!-- ===== KARAKTER LENGKAP SECTION (NEW) ===== -->
     <div class="karakter-section" id="karakter-section" style="display:none;">
       <div class="section-title">🧬 Kepribadian Mendalam</div>
       <div id="karakter-content"></div>
     </div>
-    <!-- ===== END KARAKTER SECTION ===== -->
 
     <div class="section-title">Dewa Pelindung & Info</div>
     <div id="res-dewa" style="font-size:0.95rem; color:var(--gold-pale); opacity:0.85; line-height:1.6; margin-bottom:12px;"></div>
@@ -861,7 +888,6 @@
 
     <div class="pantangan-box" id="res-pantangan"></div>
 
-    <!-- ===== OTONAN SECTION ===== -->
     <div id="otonan-section" style="display:none;">
       <div class="section-title">🎂 Otonan Berikutnya</div>
       <div class="otonan-box" id="otonan-next"></div>
@@ -871,7 +897,6 @@
       </button>
       <div id="otonan-list-container" style="display:none; margin-top:10px;"></div>
     </div>
-    <!-- ===== END OTONAN SECTION ===== -->
 
     <button onclick="hitungHarian()" id="btn-harian" style="margin-top:16px; background: linear-gradient(135deg, #1a2a4a, #2e4a8a, #1a2a4a); color: #a8c4f0; font-size:0.85rem;">
       🔮 Lihat Prediksi 7 Hari ke Depan
@@ -881,7 +906,6 @@
     </button>
   </div>
 
-  <!-- Prediksi Harian Card -->
   <div class="card" id="card-harian" style="display:none;">
     <svg class="card-corner tl" viewBox="0 0 40 40" fill="none"><path d="M2 38 Q2 2 38 2" stroke="#c9933a" stroke-width="1.5" fill="none"/><circle cx="2" cy="2" r="3" fill="#c9933a"/></svg>
     <svg class="card-corner tr" viewBox="0 0 40 40" fill="none"><path d="M2 38 Q2 2 38 2" stroke="#c9933a" stroke-width="1.5" fill="none"/><circle cx="2" cy="2" r="3" fill="#c9933a"/></svg>
@@ -896,7 +920,6 @@
     <div id="list-harian"></div>
   </div>
 
-  <!-- Kalender Bali Card -->
   <div class="card" id="card-kalender" style="display:none;">
     <svg class="card-corner tl" viewBox="0 0 40 40" fill="none"><path d="M2 38 Q2 2 38 2" stroke="#c9933a" stroke-width="1.5" fill="none"/><circle cx="2" cy="2" r="3" fill="#c9933a"/></svg>
     <svg class="card-corner tr" viewBox="0 0 40 40" fill="none"><path d="M2 38 Q2 2 38 2" stroke="#c9933a" stroke-width="1.5" fill="none"/><circle cx="2" cy="2" r="3" fill="#c9933a"/></svg>
@@ -939,7 +962,6 @@
     </div>
   </div>
 
-  <!-- Bottom ornament -->
   <div style="text-align:center; margin-top:10px;">
     <svg width="280" height="30" viewBox="0 0 280 30" fill="none">
       <path d="M10 15 Q70 5 140 15 Q210 25 270 15" stroke="#c9933a" stroke-width="1" fill="none" opacity="0.4"/>
@@ -1509,7 +1531,7 @@ const HARI_NAMA = ['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'];
 const BULAN_NAMA = ['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sep','Okt','Nov','Des'];
 const BULAN_PANJANG = ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
 
-// ===== RENDER KARAKTER SECTION (NEW) =====
+// ===== RENDER KARAKTER SECTION =====
 function renderKarakter(wuku) {
   const k = wuku.karakter;
   if (!k) return;
@@ -1753,6 +1775,23 @@ function hitung() {
 
   document.getElementById('res-wuku').textContent = wuku.nama;
   document.getElementById('res-wuku-no').textContent = `Wuku ke-${wuku.no} dari 30 · Siklus Pawukon 210 Hari`;
+
+  // ===== KODE UNTUK MENAMPILKAN GAMBAR =====
+  const imgWrapper = document.getElementById('wuku-img-wrapper');
+  const imgElement = document.getElementById('res-wuku-img');
+  const namaFile = wuku.nama.toLowerCase().replace(/\s+/g, '-'); 
+  
+  // Tampilkan wrapper sementara untuk memuat gambar
+  imgWrapper.style.display = 'block';
+  imgElement.src = `Gambar/${namaFile}.png`; 
+  imgElement.alt = `Ilustrasi karakter Wuku ${wuku.nama}`;
+
+  // Logika antisipasi: jika gambar tidak ditemukan/belum diupload, sembunyikan container
+  imgElement.onerror = function() {
+    imgWrapper.style.display = 'none';
+  };
+  // ===========================================
+
   document.getElementById('res-sapta').textContent = sapta.nama;
   document.getElementById('res-panca').textContent = panca.nama;
   document.getElementById('res-urip-sapta').textContent = sapta.urip;
@@ -1762,7 +1801,6 @@ function hitung() {
   const sifatEl = document.getElementById('res-sifat');
   sifatEl.innerHTML = wuku.sifat.map(s => `<li>${s}</li>`).join('');
 
-  // Render Karakter section (NEW)
   renderKarakter(wuku);
 
   document.getElementById('res-dewa').textContent =
@@ -2085,3 +2123,5 @@ function bukaKalender() {
 </script>
 </body>
 </html>
+
+```
